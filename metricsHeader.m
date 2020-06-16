@@ -1,0 +1,3 @@
+metrics = ["Launch Campaign", "Location", "Channel", "Max OASPL", "Begin 3 dB",...
+    "End 3 dB", "Max dSk", "Area under dSk, first 250 sec"];
+save(fullfile("C:\Users\logan\Box\ASA Falcon 9 Analysis\MAT Files\metrics.mat"), 'metrics')
