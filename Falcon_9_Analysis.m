@@ -1,10 +1,6 @@
 clear; clc;
-%% Current Directory Folder Set
-% Should set directory to folder with all required scripts and
-% configuration matrices.
-cd 'C:\Users\logan\Box\ASA Falcon 9 Analysis\Matlab'
 %% Set Plotting Style
-Journal_Plots
+plotStyle()
 %% Author: Logan Mathews 
 %% Created: 26 June 2019
 %% Rev. 00.05.01
@@ -42,7 +38,7 @@ Journal_Plots
 % 7 - RADARSAT Constellation West Field
 % 8 - RADARSAT Constellation Miguelito
 % 9 - RADARSAT Constellation East Field
-LIN = 6;
+LIN = 9;
 %---Enter Channel to Analyze---
 % IRIDIUM 7 West Field 1: 0,1,2,3,4,5,6,7
 % IRIDIUM 7 West Field 2: 0,1,2
@@ -53,23 +49,23 @@ LIN = 6;
 % RADARSAT Constellation West Field: 0,1,3,4 !!!!
 % RADARSAT Constellation Miguelito: 0,1 !!
 % RADARSAT Constellation East Field: 0,1 !!
-CHnum = 9;
+CHnum = 0;
 %---Enter What Figures To Produce---
 % 0 - Do Not Produce Figure
 % 1 - Produce Figure
-time_waveform_plot = 0;
-OASPL_plot = 1;
+time_waveform_plot = 1;
+OASPL_plot = 0;
 OASPL_Dist_Corr_plot = 0;
 OASPL_Norm_vs_Dist_Corr_Plot = 0;
 OASPL_down_3_dB_plot = 0;
 fine_spectra_down_3_dB_plot = 0;
 third_octave_down_3_dB_plot = 0;
-third_octave_multiplot = 1;
+third_octave_multiplot = 0;
 third_octave_multiplot_re_ambient = 0;
 dSk_as_func_of_time_plot = 0;
 dSk_as_func_of_time_plot_first_First150Sec = 0;
 specgram_spectra_as_fc_of_time_plot = 0;
-trajectory_information_plot = 1;
+trajectory_information_plot = 0;
 %---Save Figures?---
 % 0 - Do Not Save Figure
 % 1 - Save Figure
@@ -183,7 +179,7 @@ end
 OASPLvals = arrayfun(@(c) 20*log10(c/pref),sigma);
 OASPLData.t = tx;
 OASPLData.OASPL = OASPLvals;
-save(fullfile('C:\Users\logan\Box\ASA Falcon 9 Analysis\MAT Files\',[launchCampaign, '_', location, ' CH', int2str(CHnum),' ', mic, '_', config, '_OASPL_DATA.mat']), 'OASPLData')
+% save(fullfile('C:\Users\logan\Box\ASA Falcon 9 Analysis\MAT Files\',[launchCampaign, '_', location, ' CH', int2str(CHnum),' ', mic, '_', config, '_OASPL_DATA.mat']), 'OASPLData')
 %% Corrected OASPL Values
 if length(sigma) < length(s)
     lesser = length(sigma);
@@ -201,15 +197,14 @@ lastDown = find(OASPLvals > threshold, 1, 'last');
 dXdB = OASPLvals((firstDown):((lastDown)));
 dXdBAll = x((firstDown * oldfs):(lastDown * oldfs));
 %% Read in IRIG Data
-% if isIRIG == 1
-%     IRIG = binfileload(path,'ID',IDnum,IRIGCH);
-% 
-%     num_secs_decode = 0;
-%     [start_time] = IRIGB(IRIG,fs,num_secs_decode,1,2019);
-%     t0 = start_time.sec_aft_mid;
-%     tMax = t0 + maxOASPLt;
-%     [hrs,min,sec] = sec2time(tMax)
-% end
+if isIRIG == 1
+    IRIG = binfileload(path,'ID',IDnum,IRIGCH);
+
+    num_secs_decode = 0;
+    [start_time] = IRIGB(IRIG,oldfs,num_secs_decode,1,2019);
+    t0 = start_time.sec_aft_mid;
+    [hrs,min,sec] = sec2time(t0)
+end
 %% Calculate Ambient Spectra
 if (fine_spectra_down_3_dB_plot == 1) || (third_octave_down_3_dB_plot == 1) || (third_octave_multiplot == 1)
 ns = oldfs*5;
