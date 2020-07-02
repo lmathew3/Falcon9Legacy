@@ -122,4 +122,4 @@ MIG_elevation = [155.029, 159.559, 169.654, 177.032, ...
 figure
 plot(NF_distance,NF_elevation,EF_distance,EF_elevation,MIG_distance,MIG_elevation)
 xlabel('Horizontal Distance (m)')
-ylabel('Elevation (m)')
+ylabel('Elevation (m)') 
