@@ -27,6 +27,9 @@ plotStyle()
 % "Station and Launch, Figure Selection" section. All other parametizing
 % will be done automatically by the script.
 %***************************************************************************************************
+%% Filepaths
+% Path to folder containing data
+data_path = 'E:\ASA Falcon 9 Analysis\';
 %% Station and Launch, Figure selection
 %---Enter Location Identification Number Here---
 % 1 - IRIDIUM 7 West Field 1
@@ -40,21 +43,21 @@ plotStyle()
 % 9 - RADARSAT Constellation East Field
 LIN = 9;
 %---Enter Channel to Analyze---
-% IRIDIUM 7 West Field 1: 0,1,2,3,4,5,6,7
-% IRIDIUM 7 West Field 2: 0,1,2
-% IRIDIUM 7 North Field: 0,1,2 !
-% SAOCOM 1A North Field: 0,1,2,3,4,5 !
-% SAOCOM 1A West Field: 0,1,3,4,[6]
-% RADARSAT Constellation North Field: 0,1,2,3,4,[5,7],9,10 !!!
-% RADARSAT Constellation West Field: 0,1,3,4 !!!!
-% RADARSAT Constellation Miguelito: 0,1 !!
-% RADARSAT Constellation East Field: 0,1 !!
+% IRIDIUM 7 West Field 1: 0*,1,2,3,4,5,6,7
+% IRIDIUM 7 West Field 2: 0*,1,2
+% IRIDIUM 7 North Field: 0*,1,2 !
+% SAOCOM 1A North Field: 0,1,2,3*,4,5 !
+% SAOCOM 1A West Field: 0,1,3,4*,[6]
+% RADARSAT Constellation North Field: 0,1,2,3,4,[5,7],9*,10 !!!
+% RADARSAT Constellation West Field: 0*,1,3,4 !!!!
+% RADARSAT Constellation Miguelito: 0*,1 !!
+% RADARSAT Constellation East Field: 0*,1 !!
 CHnum = 0;
 %---Enter What Figures To Produce---
 % 0 - Do Not Produce Figure
 % 1 - Produce Figure
-time_waveform_plot = 1;
-OASPL_plot = 0;
+time_waveform_plot = 0;
+OASPL_plot = 1;
 OASPL_Dist_Corr_plot = 0;
 OASPL_Norm_vs_Dist_Corr_Plot = 0;
 OASPL_down_3_dB_plot = 0;
@@ -70,6 +73,10 @@ trajectory_information_plot = 0;
 % 0 - Do Not Save Figure
 % 1 - Save Figure
 save_figs = 0;
+%---Save Data?---
+% 0 - Do Not Save Data
+% 1 - Save Data
+save_data = 1;
 %%---ALL SCRIPT BELOW THIS POINT IS RUN AUTOMATICALLY WITH PREIOUS PARAMETERS---
 %***************************************************************************************************
 %***************************************************************************************************
@@ -103,7 +110,7 @@ launchCampaign = char(f9NameParams(1,LIN)); % Parameters: 'SAOCOM 1A', 'RADARSAT
 location = char(f9NameParams(2,LIN)); % Parameters: 'North Field', 'West Field', 'East Field', 'Miguelito'
 mic = char(stationChannels(2,(CHnum + 1)));
 config = char(stationChannels(3,(CHnum + 1)));
-path = ['C:\Users\logan\Box\ASA Falcon 9 Analysis\', launchCampaign, '\', location, '\Data'];
+path = [data_path, launchCampaign, '\', location, '\Data'];
 IDname = 'ID';
 isBoom = f9IntParams(2,LIN);
 n = 1;
@@ -143,7 +150,7 @@ oldfs = fs;
 newSamp = resample(noBoom,fsNew,fs);
 fs = fsNew;
 
-audiowrite('falcon9.wav',newSamp,fs)
+% audiowrite('falcon9.wav',newSamp,fs)
 
 %% runningstats Calculation
 % Using runningstats function
@@ -156,6 +163,7 @@ averagingPeriod = 2; % Period to average blocks over, in seconds.
 nsx = fs*averagingPeriod;
 dtx = 1/nsx;
 pct = 50;
+fsx = averagingPeriod * 0.01 * pct;
 [sigma,Cr,Sk,dSk,Kt,dKt,tx] = runningstats(newSamp,nsx,fs,pct);
 maxdSk = max(dSk);
 areadSk = trapz(dSk(floor(tOffset):floor(tOffset+250)));
@@ -177,9 +185,11 @@ if specgram_spectra_as_fc_of_time_plot == 1
 end
 %% OASPL Plot Calculations
 OASPLvals = arrayfun(@(c) 20*log10(c/pref),sigma);
-OASPLData.t = tx;
-OASPLData.OASPL = OASPLvals;
-% save(fullfile('C:\Users\logan\Box\ASA Falcon 9 Analysis\MAT Files\',[launchCampaign, '_', location, ' CH', int2str(CHnum),' ', mic, '_', config, '_OASPL_DATA.mat']), 'OASPLData')
+% OASPLData.t = tx;
+% OASPLData.OASPL = OASPLvals;
+% if save_data == 1
+%     save(fullfile('C:\Users\logan\Box\ASA Falcon 9 Analysis\MAT Files\',[launchCampaign, '_', location, ' CH', int2str(CHnum),' ', mic, '_', config, '_OASPL_DATA.mat']), 'OASPLData')
+% end
 %% Corrected OASPL Values
 if length(sigma) < length(s)
     lesser = length(sigma);
@@ -259,17 +269,23 @@ if time_waveform_plot == 1
         saveas(gcf,fullfile(['C:\Users\logan\Box\ASA Falcon 9 Analysis\', launchCampaign, '\', location, '\Figures\CH', int2str(CHnum)],[launchCampaign, '_', location, ' CH', int2str(CHnum),' ', mic, '_', config, '_Time Waveform All.png']))
         saveas(gcf,fullfile(['C:\Users\logan\Box\ASA Falcon 9 Analysis\', launchCampaign, '\', location, '\Figures\CH', int2str(CHnum)],[launchCampaign, '_', location, ' CH', int2str(CHnum),' ', mic, '_', config, '_Time Waveform All.fig']))
     end
+    if save_data == 1
+        waveformData.t = t;
+        waveformData.p = x(tOffset*oldfs:end-1);
+        waveformData.fs = oldfs;
+        save(fullfile([data_path, launchCampaign, '\', location, '\MAT Files\'],[launchCampaign, '_', location, ' CH', int2str(CHnum),' ', mic, '_', config, '_Waveform.mat']), 'waveformData')
+    end
 end
 
 if OASPL_plot == 1
     % OASPL Plot (Averaged)
     figure
-    plot(tx,OASPLvals,'DisplayName',['CH',int2str(CHnum),' - ', mic])
+    plot(-5:1/fsx:length(OASPLvals)/fsx-tOffset,OASPLvals(ceil(tOffset*fsx)-5:end),'DisplayName',['CH',int2str(CHnum),' - ', mic])
     xlabel('Time (s)')
     ylabel('OASPL (dB, re 20\muPa)')
     grid on
-    xline(firstDown,'r','DisplayName','-3dB','LabelVerticalAlignment','middle')
-    xline(lastDown,'r','HandleVisibility','off')
+%     xline(firstDown,'r','DisplayName','-3dB','LabelVerticalAlignment','middle')
+%     xline(lastDown,'r','HandleVisibility','off')
     legend()
     title({[launchCampaign, ' ', location, ' CH', int2str(CHnum),' ', mic, ' ', config], 'OASPL Plot'})
     if save_figs == 1
@@ -277,9 +293,12 @@ if OASPL_plot == 1
         saveas(gcf,fullfile(['C:\Users\logan\Box\ASA Falcon 9 Analysis\', launchCampaign, '\', location, '\Figures\CH', int2str(CHnum)],[launchCampaign, '_', location, ' CH', int2str(CHnum),' ', mic, '_', config, '_OASPL Plot.png']))
         saveas(gcf,fullfile(['C:\Users\logan\Box\ASA Falcon 9 Analysis\', launchCampaign, '\', location, '\Figures\CH', int2str(CHnum)],[launchCampaign, '_', location, ' CH', int2str(CHnum),' ', mic, '_', config, '_OASPL Plot.fig']))
     end
-    OASPLData.t = tx;
-    OASPLData.OASPL = OASPLvals;
-    save(fullfile('C:\Users\logan\Box\ASA Falcon 9 Analysis\MAT Files\',[launchCampaign, '_', location, ' CH', int2str(CHnum),' ', mic, '_', config, '_OASPL_DATA.mat']), 'OASPLData')
+    if save_data == 1
+        OASPLData.t = -5:1/fsx:length(OASPLvals)/fsx-tOffset;
+        OASPLData.OASPL = OASPLvals(ceil(tOffset*fsx)-5:end);
+        OASPLData.fs = fsx;
+        save(fullfile([data_path, launchCampaign, '\', location, '\MAT Files\'],[launchCampaign, '_', location, ' CH', int2str(CHnum),' ', mic, '_', config, '_OASPL.mat']), 'OASPLData')
+    end
 end
 
 if OASPL_Dist_Corr_plot == 1
@@ -428,9 +447,11 @@ if dSk_as_func_of_time_plot == 1
         saveas(gcf,fullfile(['C:\Users\logan\Box\ASA Falcon 9 Analysis\', launchCampaign, '\', location, '\Figures\CH', int2str(CHnum)],[launchCampaign, '_', location, ' CH', int2str(CHnum),' ', mic, '_', config, '_Derivative Skewness vs Time.png']))
         saveas(gcf,fullfile(['C:\Users\logan\Box\ASA Falcon 9 Analysis\', launchCampaign, '\', location, '\Figures\CH', int2str(CHnum)],[launchCampaign, '_', location, ' CH', int2str(CHnum),' ', mic, '_', config, '_Derivative Skewness vs Time.fig']))
     end
-    dSkData.t = tx;
-    dSkData.dSk = dSk;
-    save(fullfile('C:\Users\logan\Box\ASA Falcon 9 Analysis\MAT Files\',[launchCampaign, '_', location, ' CH', int2str(CHnum),' ', mic, '_', config, '_dSk as a Function of Time_DATA.mat']), 'dSkData')
+    if save_data == 1
+        dSkData.t = tx;
+        dSkData.dSk = dSk;
+        save(fullfile([data_path, launchCampaign, '\', location, '\MAT Files\'],[launchCampaign, '_', location, ' CH', int2str(CHnum),' ', mic, '_', config, '_dSk.mat']), 'dSkData')
+    end
 end
 
 if dSk_as_func_of_time_plot_first_First150Sec == 1
