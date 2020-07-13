@@ -29,7 +29,7 @@ plotStyle()
 %***************************************************************************************************
 %% Filepaths
 % Path to folder containing data
-data_path = 'E:\ASA Falcon 9 Analysis\';
+data_path = 'F:\ASA Falcon 9 Analysis\';
 %% Station and Launch, Figure selection
 %---Enter Location Identification Number Here---
 % 1 - IRIDIUM 7 West Field 1
@@ -41,7 +41,7 @@ data_path = 'E:\ASA Falcon 9 Analysis\';
 % 7 - RADARSAT Constellation West Field
 % 8 - RADARSAT Constellation Miguelito
 % 9 - RADARSAT Constellation East Field
-LIN = 9;
+LIN = 6;
 %---Enter Channel to Analyze---
 % IRIDIUM 7 West Field 1: 0*,1,2,3,4,5,6,7
 % IRIDIUM 7 West Field 2: 0*,1,2
@@ -52,12 +52,12 @@ LIN = 9;
 % RADARSAT Constellation West Field: 0*,1,3,4 !!!!
 % RADARSAT Constellation Miguelito: 0*,1 !!
 % RADARSAT Constellation East Field: 0*,1 !!
-CHnum = 0;
+CHnum = 10;
 %---Enter What Figures To Produce---
 % 0 - Do Not Produce Figure
 % 1 - Produce Figure
-time_waveform_plot = 0;
-OASPL_plot = 1;
+time_waveform_plot = 1;
+OASPL_plot = 0;
 OASPL_Dist_Corr_plot = 0;
 OASPL_Norm_vs_Dist_Corr_Plot = 0;
 OASPL_down_3_dB_plot = 0;

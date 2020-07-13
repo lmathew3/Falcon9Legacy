@@ -5,12 +5,14 @@ clear; clc;
 % OASPLs from measurement sites created using the Falcon_9_Analysis
 % script.
 
+plotStyle('standard','medium',4,1.75,22,'classic')
+
 tStart = 0;
 tEnd = 440;
 
 tiled = 0;
 
-data_path = 'E:\ASA Falcon 9 Analysis\';
+data_path = 'F:\ASA Falcon 9 Analysis\';
 I7_NF = open(fullfile([data_path,'IRIDIUM 7\North Field\MAT Files\','IRIDIUM 7_North Field CH0 378A07_COUGAR_OASPL.mat']));
 I7_WF1 = open(fullfile([data_path,'IRIDIUM 7\West Field 1\MAT Files\','IRIDIUM 7_West Field 1 CH0 378A07_COUGAR_OASPL.mat']));
 I7_WF2 = open(fullfile([data_path,'IRIDIUM 7\West Field 2\MAT Files\','IRIDIUM 7_West Field 2 CH0 378A07_COUGAR_OASPL.mat']));
@@ -21,15 +23,15 @@ RC_WF = open(fullfile([data_path,'RADARSAT Constellation\West Field\MAT Files\',
 RC_EF = open(fullfile([data_path,'RADARSAT Constellation\East Field\MAT Files\','RADARSAT Constellation_East Field CH0 378A07_COUGAR_OASPL.mat']));
 RC_MG = open(fullfile([data_path,'RADARSAT Constellation\Miguelito\MAT Files\','RADARSAT Constellation_Miguelito CH0 378A07_COUGAR_OASPL.mat']));
 
-I7_NF_Plot = 1;
+I7_NF_Plot = 0;
 I7_WF1_Plot = 0;
 I7_WF2_Plot = 0;
-S1A_NF_Plot = 1;
-S1A_WF_Plot = 1;
+S1A_NF_Plot = 0;
+S1A_WF_Plot = 0;
 RC_NF_Plot = 1;
-RC_WF_Plot = 0;
-RC_EF_Plot = 0;
-RC_MG_Plot = 0;
+RC_WF_Plot = 1;
+RC_EF_Plot = 1;
+RC_MG_Plot = 1;
 
 numPlots = I7_NF_Plot + I7_WF1_Plot + I7_WF2_Plot + S1A_NF_Plot + S1A_WF_Plot + RC_NF_Plot + RC_WF_Plot + RC_EF_Plot + RC_MG_Plot;
 
@@ -166,6 +168,8 @@ else
     ylabel('OASPL (dB re 20\muPa)')
     xlim([tStart tEnd])
     if tiled == 0
-        legend(labels,'Location','EastOutside')
+        legend(labels,'Location','NorthEast')
     end
 end
+
+grid on

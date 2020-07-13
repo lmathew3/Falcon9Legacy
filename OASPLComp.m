@@ -8,7 +8,7 @@
 % RC MIG: 25.76
 %
 %% Code
-plotStyle('square','medium',2,2,36,'classic')
+plotStyle('standard','medium',3,1.75,22,'classic')
 cd 'C:\Users\logan\Box\ASA Falcon 9 Analysis\MAT Files'
 I7OASPL = open('IRIDIUM 7_North Field CH0 378A07_COUGAR_OASPL_DATA.mat');
 S1AOASPL = open('SAOCOM 1A_North Field CH0 378A07_COUGAR_OASPL_DATA.mat');
