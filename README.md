@@ -34,8 +34,13 @@ Vandenberg AFB, CA.
   * Performs an autocorrelation analysis on a selected dataset and plots normalized autocorrelation as a function of lag (tau).
 * **Crosscorrelation_Analysis**
   * Performs a cross-correlation analysis between two selected datasets and plots normalized cross-correlation coefficient as a function of lag (tau).
+  * Option to use the Hilbert transform to produce and plot envelope function of the autocorrelation coefficient. Plots on a logarithmic y axis. See Harker et al. JASA (2013).
+* **Coherence_Analysis.m**
+  * Performs a coherence analysis between two selected datasets and plots the coherence between the two signals.
 * **Radiosonde_Data_Analysis.m**
   * Reads in data from *.txt* logs of radiosonde (weather balloon) data and plots atmospheric profiles of temperature, dewpoint depression, windspeed, wind direction, and a tiled plot of N-S and E-W windspeeds.
-  * Uses spline interpolation to interpolate profiles for rough or non-evenly spaced data.
+  * Uses pchip (preserves shape) 1-D interpolation to interpolate profiles for rough or non-evenly spaced data.
   * Combines directional windspeed and temperature profiles to produce a general atmospheric sound speed profile.
   * Uses *tiledlayout* function available in **MATLAB R2019b** or later versions.
+* **Elevation_Profiles.m**
+  * Contains rough elevation profiles from SLC-4E to North/West field, East Field, and Miguelito sites. Uses pchip method 1-D interpolation to place the data on a 1 m resolution grid.
