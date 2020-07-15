@@ -6,7 +6,7 @@
 tStart = 0;
 tEnd = 2;
 
-data_path = 'E:\ASA Falcon 9 Analysis\';
+data_path = 'F:\ASA Falcon 9 Analysis\';
 I7_NF = open(fullfile([data_path,'IRIDIUM 7\North Field\MAT Files\','IRIDIUM 7_North Field CH0 378A07_COUGAR_Waveform.mat']));
 I7_WF1 = open(fullfile([data_path,'IRIDIUM 7\West Field 1\MAT Files\','IRIDIUM 7_West Field 1 CH0 378A07_COUGAR_Waveform.mat']));
 I7_WF2 = open(fullfile([data_path,'IRIDIUM 7\West Field 2\MAT Files\','IRIDIUM 7_West Field 2 CH0 378A07_COUGAR_Waveform.mat']));

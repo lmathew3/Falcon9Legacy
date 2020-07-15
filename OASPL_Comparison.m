@@ -5,7 +5,7 @@ clear; clc;
 % OASPLs from measurement sites created using the Falcon_9_Analysis
 % script.
 
-plotStyle('standard','medium',4,1.75,22,'classic')
+plotStyle('standard','medium',3,1.75,22,'modern')
 
 tStart = 0;
 tEnd = 440;
@@ -13,25 +13,25 @@ tEnd = 440;
 tiled = 0;
 
 data_path = 'F:\ASA Falcon 9 Analysis\';
-I7_NF = open(fullfile([data_path,'IRIDIUM 7\North Field\MAT Files\','IRIDIUM 7_North Field CH0 378A07_COUGAR_OASPL.mat']));
-I7_WF1 = open(fullfile([data_path,'IRIDIUM 7\West Field 1\MAT Files\','IRIDIUM 7_West Field 1 CH0 378A07_COUGAR_OASPL.mat']));
-I7_WF2 = open(fullfile([data_path,'IRIDIUM 7\West Field 2\MAT Files\','IRIDIUM 7_West Field 2 CH0 378A07_COUGAR_OASPL.mat']));
-S1A_NF = open(fullfile([data_path,'SAOCOM 1A\North Field\MAT Files\','SAOCOM 1A_North Field CH3 378A07_COUGAR_OASPL.mat']));
-S1A_WF = open(fullfile([data_path,'SAOCOM 1A\West Field\MAT Files\','SAOCOM 1A_West Field CH4 378A07_COUGAR_OASPL.mat']));
-RC_NF = open(fullfile([data_path,'RADARSAT Constellation\North Field\MAT Files\','RADARSAT Constellation_North Field CH9 378A07_COUGAR_OASPL.mat']));
-RC_WF = open(fullfile([data_path,'RADARSAT Constellation\West Field\MAT Files\','RADARSAT Constellation_West Field CH0 378A07_COUGAR_OASPL.mat']));
-RC_EF = open(fullfile([data_path,'RADARSAT Constellation\East Field\MAT Files\','RADARSAT Constellation_East Field CH0 378A07_COUGAR_OASPL.mat']));
-RC_MG = open(fullfile([data_path,'RADARSAT Constellation\Miguelito\MAT Files\','RADARSAT Constellation_Miguelito CH0 378A07_COUGAR_OASPL.mat']));
+% I7_NF = open(fullfile([data_path,'IRIDIUM 7\North Field\MAT Files\','IRIDIUM 7_North Field CH0 378A07_COUGAR_OASPL.mat']));
+% I7_WF1 = open(fullfile([data_path,'IRIDIUM 7\West Field 1\MAT Files\','IRIDIUM 7_West Field 1 CH0 378A07_COUGAR_OASPL.mat']));
+% I7_WF2 = open(fullfile([data_path,'IRIDIUM 7\West Field 2\MAT Files\','IRIDIUM 7_West Field 2 CH0 378A07_COUGAR_OASPL.mat']));
+% S1A_NF = open(fullfile([data_path,'SAOCOM 1A\North Field\MAT Files\','SAOCOM 1A_North Field CH3 378A07_COUGAR_OASPL.mat']));
+% S1A_WF = open(fullfile([data_path,'SAOCOM 1A\West Field\MAT Files\','SAOCOM 1A_West Field CH4 378A07_COUGAR_OASPL.mat']));
+% RC_NF = open(fullfile([data_path,'RADARSAT Constellation\North Field\MAT Files\','RADARSAT Constellation_North Field CH9 378A07_COUGAR_OASPL.mat']));
+% RC_WF = open(fullfile([data_path,'RADARSAT Constellation\West Field\MAT Files\','RADARSAT Constellation_West Field CH0 378A07_COUGAR_OASPL.mat']));
+% RC_EF = open(fullfile([data_path,'RADARSAT Constellation\East Field\MAT Files\','RADARSAT Constellation_East Field CH0 378A07_COUGAR_OASPL.mat']));
+% RC_MG = open(fullfile([data_path,'RADARSAT Constellation\Miguelito\MAT Files\','RADARSAT Constellation_Miguelito CH0 378A07_COUGAR_OASPL.mat']));
 
-I7_NF_Plot = 0;
+I7_NF_Plot = 1;
 I7_WF1_Plot = 0;
 I7_WF2_Plot = 0;
-S1A_NF_Plot = 0;
+S1A_NF_Plot = 1;
 S1A_WF_Plot = 0;
 RC_NF_Plot = 1;
-RC_WF_Plot = 1;
-RC_EF_Plot = 1;
-RC_MG_Plot = 1;
+RC_WF_Plot = 0;
+RC_EF_Plot = 0;
+RC_MG_Plot = 0;
 
 numPlots = I7_NF_Plot + I7_WF1_Plot + I7_WF2_Plot + S1A_NF_Plot + S1A_WF_Plot + RC_NF_Plot + RC_WF_Plot + RC_EF_Plot + RC_MG_Plot;
 
@@ -64,7 +64,10 @@ if I7_NF_Plot == 1
     if numPlots > 1 && tiled == 1
         nexttile
     end
-    plot(I7_NF.OASPLData.t(tStart*I7_NF.OASPLData.fs+1:tEnd*I7_NF.OASPLData.fs),I7_NF.OASPLData.OASPL(tStart*I7_NF.OASPLData.fs+1:tEnd*I7_NF.OASPLData.fs))
+    data = loadFalcon9Data('IRIDIUM 7','North Field','OASPL',data_path);
+    t = data.OASPLData.t;
+    OASPL = data.OASPLData.OASPL;
+    plot(t,OASPL)
     if tiled == 1
         title('IRIDIUM 7 NEXT North Field')
     else
@@ -75,7 +78,10 @@ if I7_WF1_Plot == 1
     if numPlots > 1 && tiled == 1
         nexttile
     end
-    plot(I7_WF1.OASPLData.t(tStart*I7_WF1.OASPLData.fs+1:tEnd*I7_WF1.OASPLData.fs),I7_WF1.OASPLData.OASPL(tStart*I7_WF1.OASPLData.fs+1:tEnd*I7_WF1.OASPLData.fs))
+    data = loadFalcon9Data('IRIDIUM 7','West Field 1','OASPL',data_path);
+    t = data.OASPLData.t;
+    OASPL = data.OASPLData.OASPL;
+    plot(t,OASPL)
     if tiled == 1
         title('IRIDIUM 7 NEXT West Field 1')
     else
@@ -86,7 +92,10 @@ if I7_WF2_Plot == 1
     if numPlots > 1 && tiled == 1
         nexttile
     end
-    plot(I7_WF2.OASPLData.t(tStart*I7_WF2.OASPLData.fs+1:tEnd*I7_WF2.OASPLData.fs),I7_WF2.OASPLData.OASPL(tStart*I7_WF2.OASPLData.fs+1:tEnd*I7_WF2.OASPLData.fs))
+    data = loadFalcon9Data('IRIDIUM 7','West Field 2','OASPL',data_path);
+    t = data.OASPLData.t;
+    OASPL = data.OASPLData.OASPL;
+    plot(t,OASPL)
     if tiled == 1
         title('IRIDIUM 7 NEXT West Field 2')
     else
@@ -97,7 +106,10 @@ if S1A_NF_Plot == 1
     if numPlots > 1 && tiled == 1
         nexttile
     end
-    plot(S1A_NF.OASPLData.t(tStart*S1A_NF.OASPLData.fs+1:tEnd*S1A_NF.OASPLData.fs),S1A_NF.OASPLData.OASPL(tStart*S1A_NF.OASPLData.fs+1:tEnd*S1A_NF.OASPLData.fs))
+    data = loadFalcon9Data('SAOCOM 1A','North Field','OASPL',data_path);
+    t = data.OASPLData.t;
+    OASPL = data.OASPLData.OASPL;
+    plot(t,OASPL)
     if tiled == 1
         title('SAOCOM 1A North Field')
     else
@@ -108,7 +120,10 @@ if S1A_WF_Plot == 1
     if numPlots > 1 && tiled == 1
         nexttile
     end
-    plot(S1A_WF.OASPLData.t(tStart*S1A_WF.OASPLData.fs+1:tEnd*S1A_WF.OASPLData.fs),S1A_WF.OASPLData.OASPL(tStart*S1A_WF.OASPLData.fs+1:tEnd*S1A_WF.OASPLData.fs))
+    data = loadFalcon9Data('SAOCOM 1A','West Field','OASPL',data_path);
+    t = data.OASPLData.t;
+    OASPL = data.OASPLData.OASPL;
+    plot(t,OASPL)
     if tiled == 1
         title('SAOCOM 1A West Field')
     else
@@ -119,7 +134,10 @@ if RC_NF_Plot == 1
     if numPlots > 1 && tiled == 1
         nexttile
     end
-    plot(RC_NF.OASPLData.t(tStart*RC_NF.OASPLData.fs+1:tEnd*RC_NF.OASPLData.fs),RC_NF.OASPLData.OASPL(tStart*RC_NF.OASPLData.fs+1:tEnd*RC_NF.OASPLData.fs))
+    data = loadFalcon9Data('RADARSAT Constellation','North Field','OASPL',data_path);
+    t = data.OASPLData.t;
+    OASPL = data.OASPLData.OASPL;
+    plot(t,OASPL)
     if tiled == 1
         title('RADARSAT Constellation North Field')
     else
@@ -130,7 +148,10 @@ if RC_WF_Plot == 1
     if numPlots > 1 && tiled == 1
         nexttile
     end
-    plot(RC_WF.OASPLData.t(tStart*RC_WF.OASPLData.fs+1:tEnd*RC_WF.OASPLData.fs),RC_WF.OASPLData.OASPL(tStart*RC_WF.OASPLData.fs+1:tEnd*RC_WF.OASPLData.fs))
+    data = loadFalcon9Data('RADARSAT Constellation','West Field','OASPL',data_path);
+    t = data.OASPLData.t;
+    OASPL = data.OASPLData.OASPL;
+    plot(t,OASPL)
     if tiled == 1
         title('RADARSAT Constellation West Field')
     else
@@ -141,7 +162,10 @@ if RC_EF_Plot == 1
     if numPlots > 1 && tiled == 1
         nexttile
     end
-    plot(RC_EF.OASPLData.t(tStart*RC_EF.OASPLData.fs+1:tEnd*RC_EF.OASPLData.fs),RC_EF.OASPLData.OASPL(tStart*RC_EF.OASPLData.fs+1:tEnd*RC_EF.OASPLData.fs))
+    data = loadFalcon9Data('RADARSAT Constellation','East Field','OASPL',data_path);
+    t = data.OASPLData.t;
+    OASPL = data.OASPLData.OASPL;
+    plot(t,OASPL)
     if tiled == 1
         title('RADARSAT Constellation East Field')
     else
@@ -152,7 +176,10 @@ if RC_MG_Plot == 1
     if numPlots > 1 && tiled == 1
         nexttile
     end
-    plot(RC_MG.OASPLData.t(tStart*RC_MG.OASPLData.fs+1:tEnd*RC_MG.OASPLData.fs),RC_MG.OASPLData.OASPL(tStart*RC_MG.OASPLData.fs+1:tEnd*RC_MG.OASPLData.fs))
+    data = loadFalcon9Data('RADARSAT Constellation','Miguelito','OASPL',data_path);
+    t = data.OASPLData.t;
+    OASPL = data.OASPLData.OASPL;
+    plot(t,OASPL)
     if tiled == 1
         title('RADARSAT Constellation Miguelito')
     else
@@ -163,9 +190,11 @@ end
 if numPlots > 1 && tiled == 1
     xlabel(a,'Time (s)','Fontlength',22)
     ylabel(a,'OASPL (dB re 20\muPa)','Fontlength',22)
+    title(a,'Running OASPL')
 else
     xlabel('Time (s)')
     ylabel('OASPL (dB re 20\muPa)')
+    title('Running OASPL')
     xlim([tStart tEnd])
     if tiled == 0
         legend(labels,'Location','NorthEast')

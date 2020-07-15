@@ -194,11 +194,11 @@ legend('North Field','West Field','East Field','Miguelito')
 N = 1000;
 dn = 1/N;
 grid = dn:dn:30;
-WS_NF_INT = interp1(transpose(aw),transpose(WS_NF),grid,'spline');
-WS_WF_INT = interp1(transpose(aw),transpose(WS_WF),grid,'spline');
-WS_EF_INT = interp1(transpose(aw),transpose(WS_EF),grid,'spline');
-WS_MG_INT = interp1(transpose(aw),transpose(WS_MG),grid,'spline');
-c_temp_INT = interp1(transpose(at1(:,1).*1e-3),transpose(c_temp),grid,'spline');
+WS_NF_INT = interp1(transpose(aw),transpose(WS_NF),grid,'pchip');
+WS_WF_INT = interp1(transpose(aw),transpose(WS_WF),grid,'pchip');
+WS_EF_INT = interp1(transpose(aw),transpose(WS_EF),grid,'pchip');
+WS_MG_INT = interp1(transpose(aw),transpose(WS_MG),grid,'pchip');
+c_temp_INT = interp1(transpose(at1(:,1).*1e-3),transpose(c_temp),grid,'pchip');
 
 figure
 plot(WS_NF_INT,grid,WS_WF_INT,grid,WS_EF_INT,grid,WS_MG_INT,grid)
@@ -223,3 +223,7 @@ xlabel('Sound Speed (m/s)')
 ylabel('Altitude (km)')
 title({'Atmospheric Soundspeed Profile', [launch,', ',time]})
 legend('North Field','West Field','East Field','Miguelito')
+
+%% Ray Tracing
+theta0 = 6:1:10;
+[xxf, zzf, ttf, ddf] = raytrace(0,150,theta0,100,grid.*1e3,c_temp_INT,1);

@@ -6,10 +6,10 @@ data_path = 'F:\ASA Falcon 9 Analysis\';
 data_type = 'Waveform';
 % First site to compare
 launch1 = 'RADARSAT Constellation';
-site1 = 'North Field';
+site1 = 'West Field';
 % Second site to compare
 launch2 = 'RADARSAT Constellation';
-site2 = 'East Field';
+site2 = 'North Field';
 % Option to select portion of time series
 selection = 0;
 tStart = 100;
