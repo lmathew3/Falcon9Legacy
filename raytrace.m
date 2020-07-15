@@ -372,24 +372,25 @@ if plotflag
         set(f,'Position',[10 100 1300 400])
     end
     subplot(1,5,1)
-    plot(cc(1:Nsvp),zz);
-    axis ij
+    plot(cc(1:Nsvp),zz.*1e-3);
+%     axis ij
     grid on
     title('Sound Speed Profile')
     xlabel('Sound Speed, m/s')
-    ylabel('Depth, m')
+    ylabel('Altitude, km')
     subplot(1,5,2:5)
 end
 %% Plot result?
 if plotflag
     for m = 1:length(theta0)
-        plot(xxf{m},zzf{m})
+        plot(xxf{m}.*1e-3,zzf{m}.*1e-3)
         hold on
     end
+    
     hold off
-    axis ij
+%     axis ij
     grid on
     title('Ray Trace')
-    xlabel('Distance, m')
-    ylabel('Depth, m')
+    xlabel('Distance, km')
+    ylabel('Altitude, km')
 end
