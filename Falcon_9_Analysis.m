@@ -170,11 +170,11 @@ areadSk = trapz(dSk(floor(tOffset):floor(tOffset+250)));
 %% Load in 1-s Time Coorelated Altitude and Downrange Distance Matrix
 f9AltAndDRD = importdata('f9AltAndDRD.mat');
 % Row 1: Correlated T+ Time (1s Resolution)
-% Row 2: Downrange Distance (m)
-% Row 3: Altitude (m)
-[d] = f9AltAndDRD(2,:);
+% Row 3: Downrange Distance (m)
+% Row 2: Altitude (m)
+[d] = f9AltAndDRD(3,:);
 rsD = resample(d,1,averagingPeriod);
-[a] = f9AltAndDRD(3,:);
+[a] = f9AltAndDRD(2,:);
 rsA = resample(a,1,averagingPeriod);
 %% True Distance To Source Calculation
 [s] = distCalc(r,theta,rsD,rsA,averagingPeriod,tOffset);

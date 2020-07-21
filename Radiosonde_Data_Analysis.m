@@ -120,6 +120,8 @@ end
 at1 = sortrows(at);
 ad1 = sortrows(ad);
 aw1 = sortrows(aw);
+%% Convert Dewpoint Depression to RH
+RH = 100 - 5.*ad1(:,2);
 %% Plot results
 figure
 plot(at1(:,2),at1(:,1).*1e-3)
@@ -132,6 +134,12 @@ plot(ad1(:,2),ad1(:,1).*1e-3)
 xlabel('Dewpoint Depression (°C)')
 ylabel('Altitude (km)')
 title(['Atmospheric Dewpoint Profile, ',launch,', ',time])
+
+figure
+plot(RH,ad1(:,1).*1e-3)
+xlabel('Relative Humidity (%)')
+ylabel('Altitude (km)')
+title(['Relative Humidity Profile, ',launch,', ',time])
 
 figure
 plot(aw1(:,2),aw1(:,1).*1e-3)
@@ -225,5 +233,5 @@ title({'Atmospheric Soundspeed Profile', [launch,', ',time]})
 legend('North Field','West Field','East Field','Miguelito')
 
 %% Ray Tracing
-theta0 = 6:1:10;
+theta0 = 7.1;
 [xxf, zzf, ttf, ddf] = raytrace(0,150,theta0,100,grid.*1e3,c_temp_INT,1);

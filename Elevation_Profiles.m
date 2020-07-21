@@ -1,3 +1,5 @@
+
+plotStyle('standard','medium',3,1.75,22,'modern')
 NF_distance = [-0.439, 43.446, 73.178, 111.907, 155.683, 199.458, 238.406, 282.181, ...
   321.02, 364.795, 413.508, 462.11, 510.823, 544.834, 603.201, ...
   661.568, 690.862, 744.292, 778.413, 812.423, 856.199, 899.974, ...
@@ -31,7 +33,7 @@ NF_elevation = [154.755, ...
 N = floor(NF_distance(end));
 dn = 1;
 NF_grid = dn:dn:N;
-NF_Elevation_Interp = interp1(NF_distance,NF_elevation,grid,'pchip');
+NF_Elevation_Interp = interp1(NF_distance,NF_elevation,NF_grid,'pchip');
 
 EF_distance = [0, 48.184, 76.842, 118.728, 160.771, 209.584, 251.627, 321.384, ...
   370.355, 440.269, 489.083, 530.968, 600.882, 656.782, 698.667, ...
@@ -65,7 +67,7 @@ EF_elevation = [156.232, 160.991, 169.677, 174.596, 178.126, ...
 N = floor(EF_distance(end));
 dn = 1;
 EF_grid = dn:dn:N;
-EF_Elevation_Interp = interp1(EF_distance,EF_elevation,grid,'pchip');
+EF_Elevation_Interp = interp1(EF_distance,EF_elevation,EF_grid,'pchip');
 
 MIG_distance = [0, 53.075, 53.644, 107.287, 196.756, 295.134, 384.603, 500.8, ...
   625.905, 715.374, 787.025, 876.494, 956.865, 1019.42, 1082.16, ...
@@ -130,7 +132,7 @@ MIG_elevation = [155.029, 159.559, 169.654, 177.032, ...
 N = floor(MIG_distance(end));
 dn = 1;
 MIG_grid = dn:dn:N;
-MIG_Elevation_Interp = interp1(MIG_distance,MIG_elevation,grid,'pchip');
+MIG_Elevation_Interp = interp1(MIG_distance,MIG_elevation,MIG_grid,'pchip');
 
 figure
 plot(NF_distance,NF_elevation,EF_distance,EF_elevation,MIG_distance,MIG_elevation)
@@ -138,4 +140,13 @@ xlabel('Horizontal Distance (m)')
 ylabel('Elevation (m)') 
 
 figure
-plot(MIG_distance,MIG_elevation,grid,MIG_Elevation_Interp)
+plot(NF_grid,NF_Elevation_Interp,EF_grid,EF_Elevation_Interp,MIG_grid,MIG_Elevation_Interp)
+xlabel('Horizontal Distance (m)')
+ylabel('Elevation (m)') 
+title('Elevation Profiles')
+hold on
+plot(0,155,'*')
+hold off
+legend('North/West Field','East Field','Miguelito','Launch Site','Location','NorthWest')
+figure
+plot(MIG_distance,MIG_elevation,MIG_grid,MIG_Elevation_Interp)

@@ -1,15 +1,16 @@
 %% Falcon 9 Coherence Analysis
 % This script performs coherence analysis on datasets from Vandenberg
 % AFB Falcon 9 Launches using the MATLAB xcorr function
+plotStyle('standard','medium',1,1.5,22,'modern')
 %% Set Parameters
 data_path = 'F:\ASA Falcon 9 Analysis\';
 data_type = 'Waveform';
 % First site to compare
 launch1 = 'RADARSAT Constellation';
-site1 = 'West Field';
+site1 = 'Miguelito';
 % Second site to compare
 launch2 = 'RADARSAT Constellation';
-site2 = 'East Field';
+site2 = 'North Field';
 % Option to select portion of time series
 selection = 0;
 tStart = 100;
@@ -44,8 +45,8 @@ if selection
 end
 
 %% Compute Autospectra and Crosspectrum
-ns = fs*4;
-N = fs*10;
+ns = fs*2;
+N = fs*20;
 [Gxx,f,~] = autospec(x,fs,ns,N,1);
 [Gyy,f,~] = autospec(y,fs,ns,N,1);
 [Gxy,f] = crossspec(x,y,fs,ns,N,1);
@@ -56,5 +57,5 @@ figure
 semilogx(f,gamma2xy)
 xlabel('Frequency (Hz)')
 ylabel('\gamma_{xy}^2')
-title({'Coherence between ',[launch1,' ',site1, ' and ',launch2,' ',site2]})
+title({'Coherence between ',[launch1,' ',site1, ' and '],[launch2,' ',site2]})
 xlim([fmin fmax])
