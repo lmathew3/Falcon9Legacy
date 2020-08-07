@@ -1,10 +1,10 @@
-clear; clc;
+
 %% OASPL Comparison Script with Distance Correction
 % Compares OASPLs using strucuted variables (structs) containing
 % OASPLs from measurement sites created using the Falcon_9_Analysis
 % script.
 
-plotStyle('standard','medium',3,1.75,22,'modern')
+plotStyle('FontStyle','modern','FontSize',22,'LineWidth',1.75)
 
 tStart = 0;
 tEnd = 440;
@@ -23,13 +23,13 @@ data_path = 'F:\ASA Falcon 9 Analysis\';
 % RC_MG = open(fullfile([data_path,'RADARSAT Constellation\Miguelito\MAT Files\','RADARSAT Constellation_Miguelito CH0 378A07_COUGAR_OASPL.mat']));
 
 I7_NF_Plot = 1;
-I7_WF1_Plot = 0;
-I7_WF2_Plot = 0;
+I7_WF1_Plot = 1;
+I7_WF2_Plot = 1;
 S1A_NF_Plot = 1;
-S1A_WF_Plot = 0;
+S1A_WF_Plot = 1;
 RC_NF_Plot = 1;
-RC_WF_Plot = 0;
-RC_EF_Plot = 0;
+RC_WF_Plot = 1;
+RC_EF_Plot = 1;
 RC_MG_Plot = 0;
 
 numPlots = I7_NF_Plot + I7_WF1_Plot + I7_WF2_Plot + S1A_NF_Plot + S1A_WF_Plot + RC_NF_Plot + RC_WF_Plot + RC_EF_Plot + RC_MG_Plot;
@@ -40,14 +40,12 @@ f9AltAndDRD = importdata('f9AltAndDRD.mat');
 % Row 1: Correlated T+ Time (1s Resolution)
 % Row 3: Downrange Distance (m)
 % Row 2: Altitude (m)
-[t] = f9AltAndDRD(1,:);
+[t0] = f9AltAndDRD(1,:);
 [a] = f9AltAndDRD(2,:);
 [d] = f9AltAndDRD(3,:);
-%% True Distance To Source Calculation
-r = f9IntParams(5,LIN);
-theta = f9IntParams(7,LIN);
-[s] = distCalc(r,theta,d,a,1,0);
-
+c = 340;
+d0 = 2.76; % Equivalent single-nozzle diameter of Falcon 9, m.
+r0 = 100*d0; % Common distance (in m) to correct for spherical spreading
 %%
 if tiled == 1
     switch numPlots
@@ -77,9 +75,17 @@ if I7_NF_Plot == 1
     if numPlots > 1 && tiled == 1
         nexttile
     end
+    %% True Distance To Source Calculation
+    r = f9IntParams(5,1); % Radius from launch complex to measurement location
+    theta = f9IntParams(7,1); % Angle from launch complex to measurement location, relative true North
+    [s] = distCalc(r,theta,d,a,1,0); % Calculating distance from source to measurement location over time
+    t1 = t0 + s./c; % Retarted time
+    tgrid = 0:ceil(max(t1));
+    sgrid = interp1(t1,s,tgrid,'pchip'); % Interpolate time-retarted distance on even grid via pchip method
+    
     data = loadFalcon9Data('IRIDIUM 7','North Field','OASPL',data_path);
     t = data.OASPLData.t;
-    OASPL = data.OASPLData.OASPL;
+    OASPL = data.OASPLData.OASPL + 20.*log10(sgrid(1:length(data.OASPLData.OASPL))./r0);
     plot(t,OASPL)
     if tiled == 1
         title('IRIDIUM 7 NEXT North Field')
@@ -91,9 +97,17 @@ if I7_WF1_Plot == 1
     if numPlots > 1 && tiled == 1
         nexttile
     end
+    %% True Distance To Source Calculation
+    r = f9IntParams(5,2); % Radius from launch complex to measurement location
+    theta = f9IntParams(7,2); % Angle from launch complex to measurement location, relative true North
+    [s] = distCalc(r,theta,d,a,1,0); % Calculating distance from source to measurement location over time
+    t1 = t0 + s./c; % Retarted time
+    tgrid = 0:ceil(max(t1));
+    sgrid = interp1(t1,s,tgrid,'pchip'); % Interpolate time-retarted distance on even grid via pchip method
+    
     data = loadFalcon9Data('IRIDIUM 7','West Field 1','OASPL',data_path);
     t = data.OASPLData.t;
-    OASPL = data.OASPLData.OASPL;
+    OASPL = data.OASPLData.OASPL + 20.*log10(sgrid(1:length(data.OASPLData.OASPL))./r0);
     plot(t,OASPL)
     if tiled == 1
         title('IRIDIUM 7 NEXT West Field 1')
@@ -105,9 +119,17 @@ if I7_WF2_Plot == 1
     if numPlots > 1 && tiled == 1
         nexttile
     end
+    %% True Distance To Source Calculation
+    r = f9IntParams(5,3); % Radius from launch complex to measurement location
+    theta = f9IntParams(7,3); % Angle from launch complex to measurement location, relative true North
+    [s] = distCalc(r,theta,d,a,1,0); % Calculating distance from source to measurement location over time
+    t1 = t0 + s./c; % Retarted time
+    tgrid = 0:ceil(max(t1));
+    sgrid = interp1(t1,s,tgrid,'pchip'); % Interpolate time-retarted distance on even grid via pchip method
+    
     data = loadFalcon9Data('IRIDIUM 7','West Field 2','OASPL',data_path);
     t = data.OASPLData.t;
-    OASPL = data.OASPLData.OASPL;
+    OASPL = data.OASPLData.OASPL + 20.*log10(sgrid(1:length(data.OASPLData.OASPL))./r0);
     plot(t,OASPL)
     if tiled == 1
         title('IRIDIUM 7 NEXT West Field 2')
@@ -119,9 +141,17 @@ if S1A_NF_Plot == 1
     if numPlots > 1 && tiled == 1
         nexttile
     end
+    %% True Distance To Source Calculation
+    r = f9IntParams(5,4); % Radius from launch complex to measurement location
+    theta = f9IntParams(7,4); % Angle from launch complex to measurement location, relative true North
+    [s] = distCalc(r,theta,d,a,1,0); % Calculating distance from source to measurement location over time
+    t1 = t0 + s./c; % Retarted time
+    tgrid = 0:ceil(max(t1));
+    sgrid = interp1(t1,s,tgrid,'pchip'); % Interpolate time-retarted distance on even grid via pchip method
+    
     data = loadFalcon9Data('SAOCOM 1A','North Field','OASPL',data_path);
     t = data.OASPLData.t;
-    OASPL = data.OASPLData.OASPL;
+    OASPL = data.OASPLData.OASPL + 20.*log10(sgrid(1:length(data.OASPLData.OASPL))./r0);
     plot(t,OASPL)
     if tiled == 1
         title('SAOCOM 1A North Field')
@@ -133,9 +163,17 @@ if S1A_WF_Plot == 1
     if numPlots > 1 && tiled == 1
         nexttile
     end
+    %% True Distance To Source Calculation
+    r = f9IntParams(5,5); % Radius from launch complex to measurement location
+    theta = f9IntParams(7,5); % Angle from launch complex to measurement location, relative true North
+    [s] = distCalc(r,theta,d,a,1,0); % Calculating distance from source to measurement location over time
+    t1 = t0 + s./c; % Retarted time
+    tgrid = 0:ceil(max(t1));
+    sgrid = interp1(t1,s,tgrid,'pchip'); % Interpolate time-retarted distance on even grid via pchip method
+    
     data = loadFalcon9Data('SAOCOM 1A','West Field','OASPL',data_path);
     t = data.OASPLData.t;
-    OASPL = data.OASPLData.OASPL;
+    OASPL = data.OASPLData.OASPL + 20.*log10(sgrid(1:length(data.OASPLData.OASPL))./r0);
     plot(t,OASPL)
     if tiled == 1
         title('SAOCOM 1A West Field')
@@ -147,9 +185,17 @@ if RC_NF_Plot == 1
     if numPlots > 1 && tiled == 1
         nexttile
     end
+    %% True Distance To Source Calculation
+    r = f9IntParams(5,6); % Radius from launch complex to measurement location
+    theta = f9IntParams(7,6); % Angle from launch complex to measurement location, relative true North
+    [s] = distCalc(r,theta,d,a,1,0); % Calculating distance from source to measurement location over time
+    t1 = t0 + s./c; % Retarted time
+    tgrid = 0:ceil(max(t1));
+    sgrid = interp1(t1,s,tgrid,'pchip'); % Interpolate time-retarted distance on even grid via pchip method
+    
     data = loadFalcon9Data('RADARSAT Constellation','North Field','OASPL',data_path);
     t = data.OASPLData.t;
-    OASPL = data.OASPLData.OASPL;
+    OASPL = data.OASPLData.OASPL + 20.*log10(sgrid(1:length(data.OASPLData.OASPL))./r0);
     plot(t,OASPL)
     if tiled == 1
         title('RADARSAT Constellation North Field')
@@ -161,9 +207,17 @@ if RC_WF_Plot == 1
     if numPlots > 1 && tiled == 1
         nexttile
     end
+    %% True Distance To Source Calculation
+    r = f9IntParams(5,7); % Radius from launch complex to measurement location
+    theta = f9IntParams(7,7); % Angle from launch complex to measurement location, relative true North
+    [s] = distCalc(r,theta,d,a,1,0); % Calculating distance from source to measurement location over time
+    t1 = t0 + s./c; % Retarted time
+    tgrid = 0:ceil(max(t1));
+    sgrid = interp1(t1,s,tgrid,'pchip'); % Interpolate time-retarted distance on even grid via pchip method
+    
     data = loadFalcon9Data('RADARSAT Constellation','West Field','OASPL',data_path);
     t = data.OASPLData.t;
-    OASPL = data.OASPLData.OASPL;
+    OASPL = data.OASPLData.OASPL + 20.*log10(sgrid(1:length(data.OASPLData.OASPL))./r0);
     plot(t,OASPL)
     if tiled == 1
         title('RADARSAT Constellation West Field')
@@ -175,9 +229,17 @@ if RC_EF_Plot == 1
     if numPlots > 1 && tiled == 1
         nexttile
     end
+    %% True Distance To Source Calculation
+    r = f9IntParams(5,8); % Radius from launch complex to measurement location
+    theta = f9IntParams(7,8); % Angle from launch complex to measurement location, relative true North
+    [s] = distCalc(r,theta,d,a,1,0); % Calculating distance from source to measurement location over time
+    t1 = t0 + s./c; % Retarted time
+    tgrid = 0:ceil(max(t1));
+    sgrid = interp1(t1,s,tgrid,'pchip'); % Interpolate time-retarted distance on even grid via pchip method
+    
     data = loadFalcon9Data('RADARSAT Constellation','East Field','OASPL',data_path);
     t = data.OASPLData.t;
-    OASPL = data.OASPLData.OASPL;
+    OASPL = data.OASPLData.OASPL + 20.*log10(sgrid(1:length(data.OASPLData.OASPL))./r0);
     plot(t,OASPL)
     if tiled == 1
         title('RADARSAT Constellation East Field')
@@ -189,9 +251,17 @@ if RC_MG_Plot == 1
     if numPlots > 1 && tiled == 1
         nexttile
     end
+    %% True Distance To Source Calculation
+    r = f9IntParams(5,9); % Radius from launch complex to measurement location
+    theta = f9IntParams(7,9); % Angle from launch complex to measurement location, relative true North
+    [s] = distCalc(r,theta,d,a,1,0); % Calculating distance from source to measurement location over time
+    t1 = t0 + s./c; % Retarted time
+    tgrid = 0:ceil(max(t1));
+    sgrid = interp1(t1,s,tgrid,'pchip'); % Interpolate time-retarted distance on even grid via pchip method
+    
     data = loadFalcon9Data('RADARSAT Constellation','Miguelito','OASPL',data_path);
     t = data.OASPLData.t;
-    OASPL = data.OASPLData.OASPL;
+    OASPL = data.OASPLData.OASPL + 20.*log10(sgrid(1:length(data.OASPLData.OASPL))./r0);
     plot(t,OASPL)
     if tiled == 1
         title('RADARSAT Constellation Miguelito')
@@ -203,14 +273,14 @@ end
 if numPlots > 1 && tiled == 1
     xlabel(a,'Time (s)','Fontlength',22)
     ylabel(a,'OASPL (dB re 20\muPa)','Fontlength',22)
-    title(a,'Running OASPL')
+    title({[a,'Running OASPL,'], 'Amplitude Corrected for Spherical Spreading'})
 else
     xlabel('Time (s)')
     ylabel('OASPL (dB re 20\muPa)')
-    title('Running OASPL')
+    title({'Running OASPL,', 'Amplitude Corrected for Spherical Spreading'})
     xlim([tStart tEnd])
     if tiled == 0
-        legend(labels,'Location','NorthEast')
+        legend(labels,'Location','SouthEast')
     end
 end
 

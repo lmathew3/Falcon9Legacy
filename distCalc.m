@@ -1,4 +1,4 @@
-function [s]=distCalc(r,theta,d,a,averagingPeriod,tOffset)
+function [s,c]=distCalc(r,theta,d,a,averagingPeriod,tOffset)
 % This function calculates the actual distance to source of a rocket launch where trajectory
 % information is known.
 % 

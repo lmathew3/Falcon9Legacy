@@ -11,13 +11,14 @@ Vandenberg AFB, CA.
   * Finds corrected distances with distCalc.m function.
   * Will save spectra, dSk, and OASPL values as *.mat* files.
 * **Waveform_Multiplot.m**
+  * **OBSOLETE - Replaced by** `Waveform_Comparison.m` **function**
   * Produces a tiled comparison plot of waveform sections from different portions of the launch sequence.
   * Also will produce OTO spectra from different times during the launch and will high-pass the data for the spectrum and waveforms.
   * Uses `tiledlayout` function available in **MATLAB R2019b** or later versions.
 * **dSkMultiplot.m**
   * Produces an overlaid plot of dSk values over time from different launches and from different locations. Uses .mat files for dSk created by `Falcon_9_Analysis.m` code.
 * **OASPLComp.m**
-  * *OBSOLETE - Replaced by* `OASPL_Comparison.m` *function*
+  * **OBSOLETE - Replaced by** `OASPL_Comparison.m` **function**
   * Produces an overlaid plot of OASPL values over time from different launches and from different locations. Uses .mat files for OASPL created by `Falcon_9_Analysis.m` code.
 * **WeatherAnalysis.m**
   * Produces animated plots from different *.csv* weather files. Still a work in progress, and runs slowly on regular computers.
@@ -48,3 +49,6 @@ Vandenberg AFB, CA.
   * Uses *tiledlayout* function available in **MATLAB R2019b** or later versions.
 * **Elevation_Profiles.m**
   * Contains rough elevation profiles from SLC-4E to North/West field, East Field, and Miguelito sites. Uses pchip method 1-D interpolation to place the data on a 1 m resolution grid.
+* **OASPL_Distance_Correcting_Analysis.m**
+  * Plots OASPL, similar functioning to `OASPL_Comparison.m`, but also uses distance correcting measures to "correct" for spherical spreading to a common distance.
+  * TODO: Add functionality to plot directivity (angle re plume) and different trajectory for SAOCOM 1A and RADARSAT Constellation Launches.

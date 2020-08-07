@@ -1,4 +1,4 @@
-clear
+ clear
 pathToData = 'C:\Users\logan\Box\ASA Falcon 9 Analysis\Weather';
 addpath(pathToData);
 

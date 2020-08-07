@@ -5,7 +5,7 @@
 data_path = 'F:\ASA Falcon 9 Analysis\';
 data_type = 'Waveform';
 launch = 'RADARSAT Constellation';
-site = 'Miguelito';
+site = 'East Field';
 % Option to select portion of time series
 selection = 0;
 tStart = 100;
