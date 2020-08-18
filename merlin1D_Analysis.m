@@ -4,12 +4,12 @@
 % a_inf = sound speed in ambient medium
 Mco = @(U_j,a_j,a_inf) (U_j + 0.5*a_j)/(a_j + a_inf);
 
-gamma = 1.4;
-P0 = 80307;
-rho0 = 1.28e-1;
+gamma = 1.20;
+P0 = 0.0032108e6;
+rho0 = 0.01;
 a_j = sqrt(gamma*P0/rho0);
 
-U_j = 2570; % Approximate Exit Velocity of Merlin 1D, m/s
+U_j = 3100; % Approximate Exit Velocity of Merlin 1D, m/s
 a_inf = 340;
 
 Mc = Mco(U_j,a_j,a_inf)

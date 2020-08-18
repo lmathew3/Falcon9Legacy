@@ -5,7 +5,7 @@ clear; clc;
 % OASPLs from measurement sites created using the Falcon_9_Analysis
 % script.
 
-plotStyle('standard','medium',3,1.75,22,'modern')
+% plotStyle('standard','medium',3,1.75,22,'modern')
 
 tStart = 0;
 tEnd = 440;

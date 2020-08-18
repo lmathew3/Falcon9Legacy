@@ -23,13 +23,13 @@ data_path = 'F:\ASA Falcon 9 Analysis\';
 % RC_MG = open(fullfile([data_path,'RADARSAT Constellation\Miguelito\MAT Files\','RADARSAT Constellation_Miguelito CH0 378A07_COUGAR_OASPL.mat']));
 
 I7_NF_Plot = 1;
-I7_WF1_Plot = 1;
-I7_WF2_Plot = 1;
-S1A_NF_Plot = 1;
-S1A_WF_Plot = 1;
-RC_NF_Plot = 1;
-RC_WF_Plot = 1;
-RC_EF_Plot = 1;
+I7_WF1_Plot = 0;
+I7_WF2_Plot = 0;
+S1A_NF_Plot = 0;
+S1A_WF_Plot = 0;
+RC_NF_Plot = 0;
+RC_WF_Plot = 0;
+RC_EF_Plot = 0;
 RC_MG_Plot = 0;
 
 numPlots = I7_NF_Plot + I7_WF1_Plot + I7_WF2_Plot + S1A_NF_Plot + S1A_WF_Plot + RC_NF_Plot + RC_WF_Plot + RC_EF_Plot + RC_MG_Plot;

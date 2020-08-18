@@ -156,7 +156,7 @@ for m = 1:length(theta0)
     % then bottom then surface, etc. up to a maximum of MAXBOUNCE reflections. This
     % provides a single profile through which a ray may be traced seamlessly
     % handling reflections off each surface.
-    MAXBOUNCE = 20;
+    MAXBOUNCE = 50;
     Nsvp = length(zz);
     zzend = zz(end);
     
