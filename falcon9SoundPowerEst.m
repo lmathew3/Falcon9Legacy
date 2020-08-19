@@ -2,6 +2,7 @@
 % Following similar procedures to Matoza et al. (2013)
 % Currently using angles 0-90 and "zero padding" 90-180 degrees.
 plotStyle()
+clear; clc; close all;
 %% Axisymmetric area weighting factors for angles and poles
 % Leishman et al. 2006
 dSPole = @(r,dth) 4.*pi.*r.^2.*sind(dth./4).^2; % Area weighting factor for theta = 0,180 deg.
@@ -24,7 +25,34 @@ plot(angleRelativePlume(1:length(data.OASPLData.OASPL)),OASPL)
 set(gca,'Xdir','reverse')
 xlabel('Angle re Plume (Deg)')
 ylabel('OASPL (dB re 20\muPa)')
-
+%% Experimental Extrapolation of Data to 180 Degrees
+% Note the sharp increase in SPL from 90 to 85 degrees (roughly 0-12 sec)
+% This is probably due to terrain shielding and fog, received signal at 
+% these angles is diffracted rays and thus has much lower amplitude. In 
+% order to get a more accurate representation of directivity, linear 
+% extrapolation will be used to approximate OASPL levels out to 180 degrees 
+%
+% From examining other rockets, it seems like OASPL is equal around 20 and
+% 150 degrees, which should give us an approximate value to give a decent
+% extrapolation for 85->180 degrees
+%
+deg_20_ind = find(angleRelativePlume < 20,1,'first'); % Find OASPL at around 20 degrees
+OASPL_20 = OASPL(deg_20_ind); % Find OASPL value at approx. 20 deg. re plume
+% Take off terrain-shielded data
+t = t(15:end);
+OASPL = OASPL(15:end);
+angleRelativePlume = angleRelativePlume(15:end);
+% Add approximate value at 150 degrees for extrapolation
+OASPL = [OASPL_20 OASPL];
+angleRelativePlume = [150 angleRelativePlume];
+theta_grid = 0:1:180; % Setup grid for interpolation and extrapolation
+OASPL_interp = interp1(angleRelativePlume(1:length(OASPL)),OASPL,theta_grid,'linear','extrap');
+figure
+plot(theta_grid,OASPL_interp)
+set(gca,'Xdir','reverse')
+grid on
+xlabel('Angle re Plume (Deg)')
+ylabel('OASPL (dB re 20\muPa)')
 %% Find point nearest 0 degrees, find dtheta values
 zeroInd = find(angleRelativePlume>0,1,'last'); % Find last angle above zero
 dth = zeros(zeroInd);
