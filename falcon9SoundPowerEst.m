@@ -55,7 +55,7 @@ xlabel('Angle re Plume (Deg)')
 ylabel('OASPL (dB re 20\muPa)')
 %% Find point nearest 0 degrees, find dtheta values
 zeroInd = find(angleRelativePlume>0,1,'last'); % Find last angle above zero
-dth = zeros(zeroInd);
+dth = zeros(zeroInd); % Initialize array for dth values
 for i = 1:zeroInd
     if i == 1 % At pole where theta = 0
         dth(i) = angleRelativePlume(i);
@@ -74,7 +74,7 @@ for i = 2:zeroInd % Find other angle area weighting factors
     dS(i) = abs(dSReg(r0,angleRelativePlume(i),dth(i)));
 end
 %% Compute Sound Power from OASPL values and area weighting factors
-% Time averaged intensity Ibar = prms^2/(rho*c)
+% Time averaged intensity Ibar = rms_pressure^2/(rho*c)
 Ibar = 10.^(OASPL(1:zeroInd)./10).*pref^2/(rho*c);
 % Total sound power W = sum(Ibar(theta)*dS(theta))
 W = sum(Ibar.*dS); 
