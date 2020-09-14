@@ -2,19 +2,19 @@
 pathToData = 'C:\Users\logan\Box\ASA Falcon 9 Analysis\Weather';
 addpath(pathToData);
 
-plotStyle('standard','medium',2,1.5,22,'modern')
+% plotStyle('standard','medium',2,1.5,22,'modern')
 
-% launch = 'IRIDIUM 7 NEXT';
-% time = 'UTC 11:39';
-% data = readmatrix('IRIDIUM_7_NEXT_Radiosonde_Data_Raw_woHeader_25_Jul_2018_UTC1139');
+launch = 'IRIDIUM 7 NEXT';
+time = 'UTC 11:39';
+data = readmatrix('IRIDIUM_7_NEXT_Radiosonde_Data_Raw_woHeader_25_Jul_2018_UTC1139');
 
 % launch = 'SAOCOM 1A';
 % time = 'UTC UNK';
 % data = readmatrix('SAOCOM_1A_Radiosonde_Data_Raw_woHeader_07_Oct_2018_UTCUNKNOWN.txt');
 
-launch = 'RADARSAT Constellation';
-time = 'UTC 11:15';
-data = readmatrix('RADARSAT_Constellation_Radiosonde_Data_Raw_woHeader_12_Jun_2019_UTC1115.txt');
+% launch = 'RADARSAT Constellation';
+% time = 'UTC 11:15';
+% data = readmatrix('RADARSAT_Constellation_Radiosonde_Data_Raw_woHeader_12_Jun_2019_UTC1115.txt');
 
 % Column 1: First integer: major level type indicator. It has the following three possible values:
 %               1 = Standard pressure level (for levels at 1000, 925, 850,

@@ -10,7 +10,11 @@ function filtered = filterData(x,f_filter,fs,filterType,varargin)
 %  OPTIONAL INPUTS
 %   'FilterOrder' - Specifies order of butterworth filter to use. Default
 %   is 2nd order. To specify, add arguments 'FilterOrder',n to the function
-%   inputs where n is the integer order of filter.
+%   inputs where n is the integer order of filter. The order of the filter
+%   determines how quickly the filter rolls off. A first-order filter
+%   tapers off at -6 dB per octave and a second-order rolls off at -12 dB
+%   per decade. More generally, an nth order Butterworth filter rolls off
+%   at -6*n dB per octave.
 % Outputs:
 %   filtered - Time series data with filter applied
 %
