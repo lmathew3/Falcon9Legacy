@@ -51,7 +51,59 @@ function [t,a,distToRocket,downrangeFromSite,angleRelativePlume] = getRocketTraj
             downrangeFromSite = interp1(told,downrangeFromSite,t,'pchip');
             angleRelativePlume = interp1(told,angleRelativePlume,t,'pchip');
         case 2
+            data = transpose(xlsread('SAOCOM1A_Analyzed_Telemetry_Data.xlsx')); % Load trajectory data
+            t = data(1,:); % Time series (s)
+            a = data(3,:).*1e3; % Cooresponding altitudes of rocket (m)
+            d = data(7,:).*1e3; % Cooresponding downrange distance (m), from pad.
+            theta = data(8,:); % Cooresponding angle relative to the horizon (degrees)
+            
+            [distToRocket,downrangeFromSite] = distCalc(r0,theta0,d,a,1,0); % Finding downrange distance from site and straightline distance to rocket.
+            angleRelativePlume = asind(downrangeFromSite./distToRocket) - (90-theta); % Calculating angle relative to the rocket exhaust from measurement site.
+
+            t = t + distToRocket./c - r0/c; % Adjusting time to time-retarded.
+
+            % We now have trajectory data aligned with retarted time (at
+            % measurement location), however, it is on an uneven time grid.
+            % We will use interpolation to place the data on an evenly
+            % spaced time grid using 'pchip' shape-preserving method.
+
+            told = t;
+            N = floor(t(end)); % End value of time series
+            dn = 1; % Spacing between time points, s.
+            t = dn:dn:N; % Even time grid (will be the new t)
+
+            % Interpolate quantitites
+            a = interp1(told,a,t,'pchip');
+            distToRocket = interp1(told,distToRocket,t,'pchip');
+            downrangeFromSite = interp1(told,downrangeFromSite,t,'pchip');
+            angleRelativePlume = interp1(told,angleRelativePlume,t,'pchip');
         case 3
+            data = transpose(xlsread('RADARSAT_Analyzed_Telemetry_Data.xlsx')); % Load trajectory data
+            t = data(1,:); % Time series (s)
+            a = data(3,:).*1e3; % Cooresponding altitudes of rocket (m)
+            d = data(7,:).*1e3; % Cooresponding downrange distance (m), from pad.
+            theta = data(8,:); % Cooresponding angle relative to the horizon (degrees)
+            
+            [distToRocket,downrangeFromSite] = distCalc(r0,theta0,d,a,1,0); % Finding downrange distance from site and straightline distance to rocket.
+            angleRelativePlume = asind(downrangeFromSite./distToRocket) - (90-theta); % Calculating angle relative to the rocket exhaust from measurement site.
+
+            t = t + distToRocket./c - r0/c; % Adjusting time to time-retarded.
+
+            % We now have trajectory data aligned with retarted time (at
+            % measurement location), however, it is on an uneven time grid.
+            % We will use interpolation to place the data on an evenly
+            % spaced time grid using 'pchip' shape-preserving method.
+
+            told = t;
+            N = floor(t(end)); % End value of time series
+            dn = 1; % Spacing between time points, s.
+            t = dn:dn:N; % Even time grid (will be the new t)
+
+            % Interpolate quantitites
+            a = interp1(told,a,t,'pchip');
+            distToRocket = interp1(told,distToRocket,t,'pchip');
+            downrangeFromSite = interp1(told,downrangeFromSite,t,'pchip');
+            angleRelativePlume = interp1(told,angleRelativePlume,t,'pchip');
     end
 end
     

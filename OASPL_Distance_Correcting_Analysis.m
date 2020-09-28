@@ -5,9 +5,10 @@
 % script.
 
 plotStyle('FontStyle','classic','FontSize',22,'LineWidth',1.75,'ColorScheme',1)
+%%
 
 tStart = 0;
-tEnd = 440;
+tEnd = 476;%440;
 
 tiled = 0;
 
@@ -22,15 +23,15 @@ data_path = 'F:\ASA Falcon 9 Analysis\';
 % RC_EF = open(fullfile([data_path,'RADARSAT Constellation\East Field\MAT Files\','RADARSAT Constellation_East Field CH0 378A07_COUGAR_OASPL.mat']));
 % RC_MG = open(fullfile([data_path,'RADARSAT Constellation\Miguelito\MAT Files\','RADARSAT Constellation_Miguelito CH0 378A07_COUGAR_OASPL.mat']));
 
-I7_NF_Plot = 0;
+I7_NF_Plot = 1;
 I7_WF1_Plot = 0;
 I7_WF2_Plot = 0;
 S1A_NF_Plot = 0;
 S1A_WF_Plot = 0;
-RC_NF_Plot = 1;
-RC_WF_Plot = 1;
-RC_EF_Plot = 1;
-RC_MG_Plot = 1;
+RC_NF_Plot = 0;
+RC_WF_Plot = 0;
+RC_EF_Plot = 0;
+RC_MG_Plot = 0;
 
 numPlots = I7_NF_Plot + I7_WF1_Plot + I7_WF2_Plot + S1A_NF_Plot + S1A_WF_Plot + RC_NF_Plot + RC_WF_Plot + RC_EF_Plot + RC_MG_Plot;
 
@@ -45,7 +46,7 @@ f9AltAndDRD = importdata('f9AltAndDRD.mat');
 [d] = f9AltAndDRD(3,:);
 c = 340;
 d0 = 2.76; % Equivalent single-nozzle diameter of Falcon 9, m.
-r0 = 100*d0; % Common distance (in m) to correct for spherical spreading
+r0 = 6565;%100*d0; % Common distance (in m) to correct for spherical spreading
 %%
 if tiled == 1
     switch numPlots
@@ -269,6 +270,8 @@ if RC_MG_Plot == 1
         labels(length(labels) + 1) = "RADARSAT Constellation Miguelito";
     end
 end
+
+[t,a,distToRocket,downrangeFromSite,angleRelativePlume] = getRocketTrajectory('IRIDIUM 7',varargin)
 
 if numPlots > 1 && tiled == 1
     xlabel(a,'Time (s)','Fontlength',22)

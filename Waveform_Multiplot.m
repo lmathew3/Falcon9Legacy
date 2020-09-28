@@ -1,11 +1,12 @@
 clear; clc; close all;
-path = 'C:\Users\logan\Box\ASA Falcon 9 Analysis\RADARSAT Constellation\North Field\Data';
-plotStyle('square','medium',2,2,26,'classic')
+%%
+path = 'C:\Users\logan\Box\ASA Falcon 9 Analysis\IRIDIUM 7\North Field\Data';
 
+plotStyle('FontStyle','classic','FontSize',22,'LineWidth',1.75,'ColorScheme',1,'AspectRatio','standard','PlotSize','large')
 %% Parameters
 IDnum = 100;
 pref = 2e-5;
-fs = 102400;
+fs = 51200;
 dt = 1/fs;
 t_offset = 58;
 times = [0+t_offset,38+t_offset,350+t_offset,433+t_offset,49];
@@ -17,7 +18,7 @@ fHighPass = 0.5;
 highPass =1;
 
 %% Run Calculations
-x = transpose(binfileload(path,'ID',IDnum,9));
+x = transpose(binfileload(path,'ID',IDnum,0));
 
 if third_octave_multiplot == 1
     for i = 1:length(times)

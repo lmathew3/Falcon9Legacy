@@ -41,7 +41,7 @@ data_path = 'F:\ASA Falcon 9 Analysis\';
 % 7 - RADARSAT Constellation West Field
 % 8 - RADARSAT Constellation Miguelito
 % 9 - RADARSAT Constellation East Field
-LIN = 6;
+LIN = 9;
 %---Enter Channel to Analyze---
 % IRIDIUM 7 West Field 1: 0*,1,2,3,4,5,6,7
 % IRIDIUM 7 West Field 2: 0*,1,2
@@ -52,7 +52,7 @@ LIN = 6;
 % RADARSAT Constellation West Field: 0*,1,3,4 !!!!
 % RADARSAT Constellation Miguelito: 0*,1 !!
 % RADARSAT Constellation East Field: 0*,1 !!
-CHnum = 10;
+CHnum = 0;
 %---Enter What Figures To Produce---
 % 0 - Do Not Produce Figure
 % 1 - Produce Figure
