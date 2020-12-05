@@ -4,13 +4,13 @@ addpath(pathToData);
 
 % plotStyle('standard','medium',2,1.5,22,'modern')
 
-launch = 'IRIDIUM 7 NEXT';
-time = 'UTC 11:39';
-data = readmatrix('IRIDIUM_7_NEXT_Radiosonde_Data_Raw_woHeader_25_Jul_2018_UTC1139');
+% launch = 'IRIDIUM 7 NEXT';
+% time = 'UTC 11:39';
+% data = readmatrix('IRIDIUM_7_NEXT_Radiosonde_Data_Raw_woHeader_25_Jul_2018_UTC1139');
 
-% launch = 'SAOCOM 1A';
-% time = 'UTC UNK';
-% data = readmatrix('SAOCOM_1A_Radiosonde_Data_Raw_woHeader_07_Oct_2018_UTCUNKNOWN.txt');
+launch = 'SAOCOM 1A';
+time = 'UTC UNK';
+data = readmatrix('SAOCOM_1A_Radiosonde_Data_Raw_woHeader_07_Oct_2018_UTCUNKNOWN.txt');
 
 % launch = 'RADARSAT Constellation';
 % time = 'UTC 11:15';

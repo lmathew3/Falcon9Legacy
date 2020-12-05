@@ -8,7 +8,47 @@
 % RC MIG: 25.76
 %
 %% Code
-plotStyle('standard','medium',3,1.75,22,'classic')
+% plotStyle('standard','medium',3,1.75,22,'classic')
+
+set(0,'DefaultAxesFontName','Arial');
+
+set(0,'DefaultAxesFontSize',10);
+
+set(0,'DefaultTextFontSize',10);
+
+set(0,'DefaultAxesFontWeight','demi');
+
+set(0,'DefaultAxesLineWidth',1);
+
+set(0,'DefaultLineLineWidth',1);
+
+set(0,'DefaultLineMarkersize',4);
+
+set(0,'DefaultFigureUnits','inches');
+
+set(0,'DefaultFigurePosition',[1.5 1.5 4.5 4]);
+
+set(0,'DefaultAxesGridLineStyle',':');
+
+set(0,'DefaultFigureColor', [1,1,1]);
+
+colvect=[0,0,0; 1,0,0; 0,0,1; 0,.8,0;.7,.3,.3;.9,.7,.1;];  % black,
+
+%red, blue, dark green, brown, dark yellow
+
+set(0,'DefaultAxesColorOrder',colvect);
+
+set(0,'DefaultAxesLineStyleOrder',{'-','--'});  %plots all solid lines, and then dashed
+
+ 
+
+ 
+
+ 
+
+ 
+
+
 cd 'C:\Users\logan\Box\ASA Falcon 9 Analysis\MAT Files'
 I7OASPL = open('IRIDIUM 7_North Field CH0 378A07_COUGAR_OASPL_DATA.mat');
 S1AOASPL = open('SAOCOM 1A_North Field CH0 378A07_COUGAR_OASPL_DATA.mat');
@@ -27,9 +67,9 @@ yyaxis right
 plot(propogatedTime-dt0,angleRelativePlume)
 ylabel('Angle re Plume (Degrees)')
 legend('IRIDIUM 7 NEXT','SAOCOM 1A','RADARSAT Constellation','Angle re Plume')
-title({'OASPL Across Launches','at North Field Location'})
+% title({'OASPL Across Launches','at North Field Location'})
 
-
+print(gcf,'Falcon9','-dtiff','-r600');
 % if save_figs == 1
 %     saveas(gcf,fullfile(['C:\Users\logan\Box\ASA Falcon 9 Analysis\'],'Falcon 9 North Field Site OASPL Comparison.svg'))
 %     saveas(gcf,fullfile(['C:\Users\logan\Box\ASA Falcon 9 Analysis\'],'Falcon 9 North Field Site OASPL Comparison.png'))

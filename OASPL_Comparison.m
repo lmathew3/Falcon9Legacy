@@ -1,28 +1,28 @@
-clear; clc;
+clear;
 
 %% OASPL Comparison Script
 % Compares OASPLs using strucuted variables (structs) containing
 % OASPLs from measurement sites created using the Falcon_9_Analysis
 % script.
 
-plotStyle('FontStyle','classic','FontSize',22,'LineWidth',1.75,'ColorScheme',1,'AspectRatio','standard','PlotSize','large')
+plotStyle('FontStyle','classic','FontSize',22,'ColorScheme',1,'AspectRatio','standard','PlotSize','medium','Orientation','portrait')
 
 tStart = 0;
-tEnd = 476;%440;
+tEnd = 120;%440;
 
 tiled = 0;
 
 data_path = 'F:\ASA Falcon 9 Analysis\';
 
-I7_NF_Plot = 1;
+I7_NF_Plot = 0;
 I7_WF1_Plot = 0;
 I7_WF2_Plot = 0;
 S1A_NF_Plot = 0;
 S1A_WF_Plot = 0;
-RC_NF_Plot = 0;
-RC_WF_Plot = 0;
-RC_EF_Plot = 0;
-RC_MG_Plot = 0;
+RC_NF_Plot = 1;
+RC_WF_Plot = 1;
+RC_EF_Plot = 1;
+RC_MG_Plot = 1;
 
 numPlots = I7_NF_Plot + I7_WF1_Plot + I7_WF2_Plot + S1A_NF_Plot + S1A_WF_Plot + RC_NF_Plot + RC_WF_Plot + RC_EF_Plot + RC_MG_Plot;
 
@@ -182,6 +182,16 @@ if numPlots > 1 && tiled == 1
     xlabel(a,'Time (s)','Fontlength',22)
     ylabel(a,'OASPL (dB re 20\muPa)','Fontlength',22)
     title(a,'Running OASPL')
+elseif numPlots == 1
+    xlabel('Time (s)')
+    ylabel('OASPL (dB re 20\muPa)')
+    title('Running OASPL')
+    xlim([tStart tEnd])
+    maxOASPL = max(OASPL);
+    down3dB = [t(find(OASPL > (maxOASPL-3),1,'first')) t(find(OASPL > (maxOASPL-3),1,'last'))]
+    xline(down3dB(1),'r','LineWidth',1.5)
+    xline(down3dB(2),'r','LineWidth',1.5)
+    yline(maxOASPL-3,'b','LineWidth',1.5)
 else
     xlabel('Time (s)')
     ylabel('OASPL (dB re 20\muPa)')

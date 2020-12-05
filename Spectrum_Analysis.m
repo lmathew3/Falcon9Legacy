@@ -1,14 +1,21 @@
-clear; clc;
+% clear; clc;
 
 %% Spectra Comparison Script
 % Compares spectra using strucuted variables (structs) containing
 % time series data from measurement sites created using the Falcon_9_Analysis
 % script.
 
-plotStyle('FontStyle','classic','FontSize',24,'ColorScheme',1,'AspectRatio','standard')
+plotStyle('FontStyle','classic','FontSize',22,'ColorScheme',1,'AspectRatio','widescreen','PlotSize','medium','Orientation','portrait')
+%%
+tStart = 30;
+tEnd = 50;
 
-tStart = 0;
-tEnd = 30;
+% tStart = 50;
+% tEnd = 70;
+
+tbuff = 10;
+tStart = tStart+tbuff;
+tEnd = tEnd+tbuff;
 
 fmin = 1;
 fmax = 20000;
@@ -28,10 +35,10 @@ I7_WF1_Plot = 0;
 I7_WF2_Plot = 0;
 S1A_NF_Plot = 0;
 S1A_WF_Plot = 0;
-RC_NF_Plot = 0;
+RC_NF_Plot = 1;
 RC_WF_Plot = 1;
-RC_EF_Plot = 0;
-RC_MG_Plot = 0;
+RC_EF_Plot = 1;
+RC_MG_Plot = 1;
 
 numPlots = I7_NF_Plot + I7_WF1_Plot + I7_WF2_Plot + S1A_NF_Plot + S1A_WF_Plot + RC_NF_Plot + RC_WF_Plot + RC_EF_Plot + RC_MG_Plot;
 
@@ -54,7 +61,7 @@ if tiled == 1
             a = tiledlayout(3,3)
     end
 else
-    figure 
+%     figure 
     hold on
     labels = string.empty;
 end
@@ -204,7 +211,6 @@ if RC_NF_Plot == 1
         labels(length(labels) + 1) = "RADARSAT Constellation North Field";
     end
 end
-%%
 if RC_WF_Plot == 1
     if numPlots > 1 && tiled == 1
         nexttile
@@ -229,7 +235,6 @@ if RC_WF_Plot == 1
         labels(length(labels) + 1) = "RADARSAT Constellation West Field";
     end
 end
-%%
 if RC_EF_Plot == 1
     if numPlots > 1 && tiled == 1
         nexttile
@@ -285,12 +290,13 @@ if numPlots > 1 && tiled == 1
     title(a,'Spectra')
     xlim([fmin fmax])
 else
-    xlabel('Frequency (Hz)')
-    ylabel('SPL (dB re 20\muPa/\surdHz)')
-    title('Spectrum')
+%     xlabel('Frequency (Hz)')
+%     ylabel('SPL (dB re 20\muPa/\surdHz)')
+%     title('Spectrum')
     xlim([fmin fmax])
+    set(gca, 'XScale', 'log')
     if tiled == 0
-        legend(labels,'Location','NorthEast')
+        legend(labels,'Location','SouthWest')
     end
 end
 

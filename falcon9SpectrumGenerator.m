@@ -1,13 +1,13 @@
 %% Compute Spectra for Falcon 9 Datasets, save as .mat files
 
 %% Parameters
-launch = 'RADARSAT Constellation';
-site = 'East Field';
+launch = 'SAOCOM 1A';
+site = 'North Field';
 data_type = 'Waveform';
 data_path = 'F:\ASA Falcon 9 Analysis\';
 blockSize = 4 ;% Block size, in seconds.
-tStart = 47;
-tEnd = 77;
+tStart = 270;
+tEnd = 320;
 fmin = 1;
 fmax = 20000;
 save_data = 0;

@@ -2,21 +2,25 @@
 % Compares waveforms using strucuted variables (structs) containing
 % waveforms from measurement sites created using the Falcon_9_Analysis
 % script.
-plotStyle('FontStyle','classic','FontSize',22,'LineWidth',1.75,'ColorScheme',1,'AspectRatio','standard','PlotSize','large')
+plotStyle('FontStyle','classic','FontSize',22,'LineWidth',1.75,'ColorScheme',1,'AspectRatio','widescreen','PlotSize','hd')
 %%
 
-tStart = 0;
-tEnd = 472;
+tStart = -10;
+tEnd = 450;
+
+tbuff = 10;
+tStart = tStart+tbuff;
+tEnd = tEnd+tbuff;
 
 data_path = 'F:\ASA Falcon 9 Analysis\';
 
-I7_NF_Plot = 1;
+I7_NF_Plot = 0;
 I7_WF1_Plot = 0;
 I7_WF2_Plot = 0;
 S1A_NF_Plot = 0;
 S1A_WF_Plot = 0;
 RC_NF_Plot = 0;
-RC_WF_Plot = 0;
+RC_WF_Plot = 1;
 RC_EF_Plot = 0;
 RC_MG_Plot = 0;
 
@@ -28,19 +32,25 @@ switch numPlots
     case 1
         figure
     case 2
+        figure
         a = tiledlayout(1,2)
     case 3
+        figure
         a = tiledlayout(1,3)
     case 4
+        figure
         a = tiledlayout(2,2)
     case {5,6}
+        figure
         a = tiledlayout(2,3)
     case {7,8}
+        figure
         a = tiledlayout(2,4)
     case 9
+        figure
         a = tiledlayout(3,3)
 end
-
+%%
 if I7_NF_Plot == 1
     if numPlots > 1
         nexttile
@@ -63,7 +73,7 @@ if I7_WF2_Plot == 1
     end
     I7_WF2 = open(fullfile([data_path,'IRIDIUM 7\West Field 2\MAT Files\','IRIDIUM 7_West Field 2 CH0 378A07_COUGAR_Waveform.mat']));
     plot(I7_WF2.waveformData.t(tStart*I7_WF2.waveformData.fs+1:tEnd*I7_WF2.waveformData.fs),I7_WF2.waveformData.p(tStart*I7_WF2.waveformData.fs+1:tEnd*I7_WF2.waveformData.fs))
-    title('IRIDIUM 7 NEXT West Field 1')
+    title('IRIDIUM 7 NEXT West Field 2')
 end
 if S1A_NF_Plot == 1
     if numPlots > 1

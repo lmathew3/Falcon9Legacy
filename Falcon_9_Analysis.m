@@ -41,9 +41,9 @@ data_path = 'F:\ASA Falcon 9 Analysis\';
 % 7 - RADARSAT Constellation West Field
 % 8 - RADARSAT Constellation Miguelito
 % 9 - RADARSAT Constellation East Field
-LIN = 9;
+LIN = 8;
 %---Enter Channel to Analyze---
-% IRIDIUM 7 West Field 1: 0*,1,2,3,4,5,6,7
+% IRIDIUM 7 West Field 1: 0,1*,2,3,4,5,6,7
 % IRIDIUM 7 West Field 2: 0*,1,2
 % IRIDIUM 7 North Field: 0*,1,2 !
 % SAOCOM 1A North Field: 0,1,2,3*,4,5 !
@@ -57,7 +57,7 @@ CHnum = 0;
 % 0 - Do Not Produce Figure
 % 1 - Produce Figure
 time_waveform_plot = 1;
-OASPL_plot = 0;
+OASPL_plot = 1;
 OASPL_Dist_Corr_plot = 0;
 OASPL_Norm_vs_Dist_Corr_Plot = 0;
 OASPL_down_3_dB_plot = 0;
@@ -76,7 +76,9 @@ save_figs = 0;
 %---Save Data?---
 % 0 - Do Not Save Data
 % 1 - Save Data
-save_data = 1;
+save_data = 0;
+%---Prebuffer Time (Time before IOP impulse)---
+prebuff = 10;
 %%---ALL SCRIPT BELOW THIS POINT IS RUN AUTOMATICALLY WITH PREIOUS PARAMETERS---
 %***************************************************************************************************
 %***************************************************************************************************
@@ -149,7 +151,6 @@ fsNew = 10000;
 oldfs = fs;
 newSamp = resample(noBoom,fsNew,fs);
 fs = fsNew;
-
 % audiowrite('falcon9.wav',newSamp,fs)
 
 %% runningstats Calculation
@@ -180,16 +181,11 @@ rsA = resample(a,1,averagingPeriod);
 [s] = distCalc(r,theta,rsD,rsA,averagingPeriod,tOffset);
 %% Specgram
 if specgram_spectra_as_fc_of_time_plot == 1
-% Using specgram function
-[sgGxx,sgt,sgf,runOASPL] = specgram(newSamp,nsx,fs,pct);
+    % Using specgram function
+    [sgGxx,sgt,sgf,runOASPL] = specgram(newSamp,nsx,fs,pct);
 end
 %% OASPL Plot Calculations
 OASPLvals = arrayfun(@(c) 20*log10(c/pref),sigma);
-% OASPLData.t = tx;
-% OASPLData.OASPL = OASPLvals;
-% if save_data == 1
-%     save(fullfile('C:\Users\logan\Box\ASA Falcon 9 Analysis\MAT Files\',[launchCampaign, '_', location, ' CH', int2str(CHnum),' ', mic, '_', config, '_OASPL_DATA.mat']), 'OASPLData')
-% end
 %% Corrected OASPL Values
 if length(sigma) < length(s)
     lesser = length(sigma);
@@ -257,9 +253,12 @@ end
 
 if time_waveform_plot == 1
     % Time Waveform Plot 
+    
     figure
-    t = dt:dt:length(x)*dt-tOffset;
-    plot(t,x(tOffset*oldfs:end-1))
+    t = -prebuff:dt:length(x)*dt-tOffset;
+%     t = dt:dt:length(x)*dt;
+    plot(t,x((tOffset-prebuff)*oldfs:end))
+%     plot(t,x)
     xlabel('Time (s)')
     ylabel('Pressure (Pa)')
     grid on
@@ -271,7 +270,7 @@ if time_waveform_plot == 1
     end
     if save_data == 1
         waveformData.t = t;
-        waveformData.p = x(tOffset*oldfs:end-1);
+        waveformData.p = x((tOffset-prebuff)*oldfs:end);
         waveformData.fs = oldfs;
         save(fullfile([data_path, launchCampaign, '\', location, '\MAT Files\'],[launchCampaign, '_', location, ' CH', int2str(CHnum),' ', mic, '_', config, '_Waveform.mat']), 'waveformData')
     end
@@ -280,7 +279,7 @@ end
 if OASPL_plot == 1
     % OASPL Plot (Averaged)
     figure
-    plot(-5:1/fsx:length(OASPLvals)/fsx-tOffset,OASPLvals(ceil(tOffset*fsx)-5:end),'DisplayName',['CH',int2str(CHnum),' - ', mic])
+    plot(-prebuff:1/fsx:length(OASPLvals)/fsx-tOffset,OASPLvals(ceil(tOffset*fsx)-prebuff:end),'DisplayName',['CH',int2str(CHnum),' - ', mic])
     xlabel('Time (s)')
     ylabel('OASPL (dB, re 20\muPa)')
     grid on
@@ -294,8 +293,8 @@ if OASPL_plot == 1
         saveas(gcf,fullfile(['C:\Users\logan\Box\ASA Falcon 9 Analysis\', launchCampaign, '\', location, '\Figures\CH', int2str(CHnum)],[launchCampaign, '_', location, ' CH', int2str(CHnum),' ', mic, '_', config, '_OASPL Plot.fig']))
     end
     if save_data == 1
-        OASPLData.t = -5:1/fsx:length(OASPLvals)/fsx-tOffset;
-        OASPLData.OASPL = OASPLvals(ceil(tOffset*fsx)-5:end);
+        OASPLData.t = -prebuff:1/fsx:length(OASPLvals)/fsx-tOffset;
+        OASPLData.OASPL = OASPLvals(ceil(tOffset*fsx)-prebuff:end);
         OASPLData.fs = fsx;
         save(fullfile([data_path, launchCampaign, '\', location, '\MAT Files\'],[launchCampaign, '_', location, ' CH', int2str(CHnum),' ', mic, '_', config, '_OASPL.mat']), 'OASPLData')
     end
