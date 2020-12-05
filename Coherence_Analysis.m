@@ -1,7 +1,7 @@
 %% Falcon 9 Coherence Analysis
 % This script performs coherence analysis on datasets from Vandenberg
 % AFB Falcon 9 Launches using the MATLAB xcorr function
-plotStyle('standard','medium',1,1.5,22,'modern')
+plotStyle('FontStyle','classic','FontSize',22,'LineWidth',1.75,'ColorScheme',1)
 %% Set Parameters
 data_path = 'F:\ASA Falcon 9 Analysis\';
 data_type = 'Waveform';
@@ -10,7 +10,7 @@ launch1 = 'RADARSAT Constellation';
 site1 = 'Miguelito';
 % Second site to compare
 launch2 = 'RADARSAT Constellation';
-site2 = 'North Field';
+site2 = 'East Field';
 % Option to select portion of time series
 selection = 0;
 tStart = 100;

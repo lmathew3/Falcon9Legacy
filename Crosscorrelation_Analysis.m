@@ -12,8 +12,8 @@ launch2 = 'RADARSAT Constellation';
 site2 = 'North Field';
 % Option to select portion of time series
 selection = 0;
-tStart = 100;
-tEnd = 200;
+tStart = 0;
+tEnd = 50;
 %% Load Data
 data1 = loadFalcon9Data(launch1,site1,data_type,data_path);
 x1 = data1.waveformData.p;

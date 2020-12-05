@@ -2,7 +2,7 @@
 % Following similar procedures to Matoza et al. (2013)
 % Currently using angles 0-90 and "zero padding" 90-180 degrees.
 plotStyle()
-clear; clc; close all;
+clear; close all;
 %% Axisymmetric area weighting factors for angles and poles
 % Leishman et al. 2006
 dSPole = @(r,dth) 4.*pi.*r.^2.*sind(dth./4).^2; % Area weighting factor for theta = 0,180 deg.
@@ -11,12 +11,12 @@ dSReg = @(r,th,dth) 4.*pi.*r.^2.*sind(th).*sind(dth./2); % Area weighting factor
 %% Establish directivity
 data_path = 'F:\ASA Falcon 9 Analysis\';
 f9IntParams = importdata('f9IntParams.mat');
-LIN = 7; % Select location
+LIN = 9; % Select location
 r0 = f9IntParams(5,LIN); % Radius from launch complex to measurement location
 theta = f9IntParams(7,LIN); % Angle from launch complex to measurement location, relative true North
-[t,a,distToRocket,downrangeFromSite,angleRelativePlume] = getRocketTrajectory('IRIDIUM 7','SoundSpeed',340,'DistFromPad',r0,'Angle',theta);
-
-data = loadFalcon9Data('RADARSAT Constellation','West Field','OASPL',data_path); % Load OASPL Data
+[t,a,distToRocket,downrangeFromSite,angleRelativePlume] = getRocketTrajectory('RADARSAT Constellation','SoundSpeed',340,'DistFromPad',r0,'Angle',theta);
+% angleRelativePlume = smooth(angleRelativePlume,30/length(angleRelativePlume))';
+data = loadFalcon9Data('RADARSAT Constellation','East Field','OASPL',data_path); % Load OASPL Data
 t = data.OASPLData.t; % Load cooresponding time series
 OASPL = data.OASPLData.OASPL + 20.*log10(distToRocket(1:length(data.OASPLData.OASPL))./r0); % Distance correct OASPL for spherical spreading to common radius of site at t = 0
 %% Plot Directivity
@@ -43,7 +43,7 @@ t = t(15:end);
 OASPL = OASPL(15:end);
 angleRelativePlume = angleRelativePlume(15:end);
 % Add approximate value at 150 degrees for extrapolation
-OASPL = [OASPL_20 OASPL];
+OASPL = [90 OASPL];
 angleRelativePlume = [150 angleRelativePlume];
 theta_grid = 0:1:180; % Setup grid for interpolation and extrapolation
 OASPL_interp = interp1(angleRelativePlume(1:length(OASPL)),OASPL,theta_grid,'linear','extrap');

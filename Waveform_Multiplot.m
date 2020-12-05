@@ -1,23 +1,27 @@
 clear; clc; close all;
-path = 'C:\Users\logan\Box\ASA Falcon 9 Analysis\RADARSAT Constellation\North Field\Data';
-plotStyle('square','medium',2,2,26,'classic')
+%%
+data_path = 'F:\ASA Falcon 9 Analysis\';
 
+plotStyle('FontStyle','classic','FontSize',22,'LineWidth',1.75,'ColorScheme',1,'AspectRatio','standard','PlotSize','large')
 %% Parameters
-IDnum = 100;
 pref = 2e-5;
-fs = 102400;
-dt = 1/fs;
-t_offset = 58;
-times = [0+t_offset,38+t_offset,350+t_offset,433+t_offset,49];
+t_offset = 9.78;
+times = [1/51200, 0+t_offset,30+t_offset,100+t_offset,300+t_offset];
 spec_duration = 8;
 third_octave_multiplot = 1;
 fmin = 0.5;
 fmax = 20000;
 fHighPass = 0.5;
-highPass =1;
+highPass = 1;
 
 %% Run Calculations
-x = transpose(binfileload(path,'ID',IDnum,9));
+launch = 'RADARSAT Constellation';
+site = 'West Field';
+data_type = 'Waveform';
+[data,CH,mic,config] = loadFalcon9Data(launch,site,data_type,data_path);
+x = data.waveformData.p;
+fs = data.waveformData.fs;
+dt = 1/fs;
 
 if third_octave_multiplot == 1
     for i = 1:length(times)
@@ -41,10 +45,10 @@ grid on
 xlim([fmin fmax])
 xlabel('Frequency (Hz)')
 ylabel('SPL (dB re 20\muPa)')
-legend('Ignition Overpressure (A)','Peak Directivity (B)','Late Launch (C)','2nd Stage Ignition (E)','Ambient','Location','SouthEast')
+legend('Ambient','I','II','III','IV','Location','NorthEast')
 title('One-Third Octave Band Spectra')
 xlim([1 20000])
-ylim([-30 120])
+% ylim([-30 120])
 
 %%
 figure

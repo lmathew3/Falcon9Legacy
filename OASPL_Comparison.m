@@ -1,27 +1,18 @@
-clear; clc;
+clear;
 
 %% OASPL Comparison Script
 % Compares OASPLs using strucuted variables (structs) containing
 % OASPLs from measurement sites created using the Falcon_9_Analysis
 % script.
 
-plotStyle('FontStyle','classic','FontSize',24,'ColorScheme',1,'AspectRatio','square')
+plotStyle('FontStyle','classic','FontSize',22,'ColorScheme',1,'AspectRatio','standard','PlotSize','medium','Orientation','portrait')
 
 tStart = 0;
-tEnd = 440;
+tEnd = 120;%440;
 
 tiled = 0;
 
 data_path = 'F:\ASA Falcon 9 Analysis\';
-% I7_NF = open(fullfile([data_path,'IRIDIUM 7\North Field\MAT Files\','IRIDIUM 7_North Field CH0 378A07_COUGAR_OASPL.mat']));
-% I7_WF1 = open(fullfile([data_path,'IRIDIUM 7\West Field 1\MAT Files\','IRIDIUM 7_West Field 1 CH0 378A07_COUGAR_OASPL.mat']));
-% I7_WF2 = open(fullfile([data_path,'IRIDIUM 7\West Field 2\MAT Files\','IRIDIUM 7_West Field 2 CH0 378A07_COUGAR_OASPL.mat']));
-% S1A_NF = open(fullfile([data_path,'SAOCOM 1A\North Field\MAT Files\','SAOCOM 1A_North Field CH3 378A07_COUGAR_OASPL.mat']));
-% S1A_WF = open(fullfile([data_path,'SAOCOM 1A\West Field\MAT Files\','SAOCOM 1A_West Field CH4 378A07_COUGAR_OASPL.mat']));
-% RC_NF = open(fullfile([data_path,'RADARSAT Constellation\North Field\MAT Files\','RADARSAT Constellation_North Field CH9 378A07_COUGAR_OASPL.mat']));
-% RC_WF = open(fullfile([data_path,'RADARSAT Constellation\West Field\MAT Files\','RADARSAT Constellation_West Field CH0 378A07_COUGAR_OASPL.mat']));
-% RC_EF = open(fullfile([data_path,'RADARSAT Constellation\East Field\MAT Files\','RADARSAT Constellation_East Field CH0 378A07_COUGAR_OASPL.mat']));
-% RC_MG = open(fullfile([data_path,'RADARSAT Constellation\Miguelito\MAT Files\','RADARSAT Constellation_Miguelito CH0 378A07_COUGAR_OASPL.mat']));
 
 I7_NF_Plot = 0;
 I7_WF1_Plot = 0;
@@ -191,6 +182,16 @@ if numPlots > 1 && tiled == 1
     xlabel(a,'Time (s)','Fontlength',22)
     ylabel(a,'OASPL (dB re 20\muPa)','Fontlength',22)
     title(a,'Running OASPL')
+elseif numPlots == 1
+    xlabel('Time (s)')
+    ylabel('OASPL (dB re 20\muPa)')
+    title('Running OASPL')
+    xlim([tStart tEnd])
+    maxOASPL = max(OASPL);
+    down3dB = [t(find(OASPL > (maxOASPL-3),1,'first')) t(find(OASPL > (maxOASPL-3),1,'last'))]
+    xline(down3dB(1),'r','LineWidth',1.5)
+    xline(down3dB(2),'r','LineWidth',1.5)
+    yline(maxOASPL-3,'b','LineWidth',1.5)
 else
     xlabel('Time (s)')
     ylabel('OASPL (dB re 20\muPa)')
