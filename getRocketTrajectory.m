@@ -1,4 +1,4 @@
-function [t,a,distToRocket,downrangeFromSite,angleRelativePlume] = getRocketTrajectory(launch,varargin)
+function [t,a,distToRocket,downrangeFromSite,angleRelativePlume,speed,MachNo] = getRocketTrajectory(launch,varargin)
     % Parse inputs
     p = inputParser;
     p.addParameter('SoundSpeed',340);
@@ -34,9 +34,10 @@ function [t,a,distToRocket,downrangeFromSite,angleRelativePlume] = getRocketTraj
     end
     
     t = data(1,:); % Time series (s)
-    a = data(3,:).*1e3; % Cooresponding altitudes of rocket (m)
-    d = data(7,:).*1e3; % Cooresponding downrange distance (m), from pad.
-    theta = data(8,:); % Cooresponding angle relative to the horizon (degrees)
+    u = data(2,:); % Corresponding velocity of rocket (m/s)
+    a = data(3,:).*1e3; % Corresponding altitudes of rocket (m)
+    d = data(7,:).*1e3; % Corresponding downrange distance (m), from pad.
+    theta = data(8,:); % Corresponding angle relative to the horizon (degrees)
 
     [distToRocket,downrangeFromSite] = distCalc(r0,theta0,d,a,1,0); % Finding downrange distance from site and straightline distance to rocket.
     angleRelativePlume = asind(downrangeFromSite./distToRocket) - (90-theta); % Calculating angle relative to the rocket exhaust from measurement site.
@@ -55,9 +56,11 @@ function [t,a,distToRocket,downrangeFromSite,angleRelativePlume] = getRocketTraj
 
     % Interpolate quantitites
     a = interp1(told,a,t,'pchip');
+    speed = interp1(told,u,t,'pchip');
     distToRocket = interp1(told,distToRocket,t,'pchip');
     downrangeFromSite = interp1(told,downrangeFromSite,t,'pchip');
     angleRelativePlume = interp1(told,angleRelativePlume,t,'pchip');
+    MachNo = speed/c; % Compute Vehicle Mach Number
 
     % Zero Pad Quantities
     t = [-zeroPad:dn:0,t];
@@ -65,6 +68,8 @@ function [t,a,distToRocket,downrangeFromSite,angleRelativePlume] = getRocketTraj
     distToRocket = [ones(1,zeroPad).*distToRocket(1),distToRocket];
     downrangeFromSite = [ones(1,zeroPad).*downrangeFromSite(1),downrangeFromSite];
     angleRelativePlume = [ones(1,zeroPad).*angleRelativePlume(1),angleRelativePlume];
+    speed = [ones(1,zeroPad).*speed(1),speed];
+    MachNo = [ones(1,zeroPad).*MachNo(1),MachNo];
 end
     
     

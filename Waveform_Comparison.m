@@ -12,7 +12,7 @@ tbuff = 10;
 tStart = tStart+tbuff;
 tEnd = tEnd+tbuff;
 
-data_path = 'F:\ASA Falcon 9 Analysis\';
+data_path = 'E:\ASA Falcon 9 Analysis\';
 
 I7_NF_Plot = 0;
 I7_WF1_Plot = 0;
@@ -105,7 +105,7 @@ if RC_WF_Plot == 1
     end
     RC_WF = open(fullfile([data_path,'RADARSAT Constellation\West Field\MAT Files\','RADARSAT Constellation_West Field CH0 378A07_COUGAR_Waveform.mat']));
     plot(RC_WF.waveformData.t(tStart*RC_WF.waveformData.fs+1:tEnd*RC_WF.waveformData.fs),RC_WF.waveformData.p(tStart*RC_WF.waveformData.fs+1:tEnd*RC_WF.waveformData.fs))
-    title('RADARSAT Constellation West Field')
+%     title('RADARSAT Constellation West Field')
 end
 if RC_EF_Plot == 1
     if numPlots > 1

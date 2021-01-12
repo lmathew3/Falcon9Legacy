@@ -1,6 +1,6 @@
 plotStyle('FontStyle','classic','FontSize',16,'LineWidth',1,'ColorScheme',1,'AspectRatio','square','PlotSize','small')
 %%
-data_path = 'F:\ASA Falcon 9 Analysis\';
+data_path = 'E:\ASA Falcon 9 Analysis\';
 f9IntParams = importdata('f9IntParams.mat');
 f9NameParams = importdata('f9NameParams.mat');
 locations = [1 3 4 5 6 7 9];
@@ -81,12 +81,11 @@ else
     figure
 %     plot(arp',OASPL')
     hold on
-    patch([arpMean fliplr(arpMean)], [OASPLmin fliplr(OASPLmax)], [.89, 0, .23], 'FaceAlpha',0.5, 'EdgeColor','none')
+    plot(arpMean,OASPLmean,'k','LineWidth',2,'MarkerSize',10,'MarkerIndices',[10:10:90])
+%     patch([arpMean fliplr(arpMean)], [OASPLmin fliplr(OASPLmax)], [.89, 0, .23], 'FaceAlpha',0.5, 'EdgeColor','none')
     patch([arpMean fliplr(arpMean)], [OASPLmean-OASPLstd fliplr(OASPLmean+OASPLstd)], [0, .6, .77], 'FaceAlpha',0.5, 'EdgeColor','none')
-    plot(arpMean,OASPLmean,'d-k','LineWidth',2,'MarkerSize',10,'MarkerIndices',[10:10:90])
-%     plot(arpMedian,OASPLmedian,'o-r','LineWidth',2,'MarkerSize',10,'MarkerIndices',[5:10:85])
-    
-    hold off
+    %     plot(arpMedian,OASPLmedian,'o-r','LineWidth',2,'MarkerSize',10,'MarkerIndices',[5:10:85])
+        hold off
     xlabel('Angle re Plume (Deg)')
     ylabel('OASPL (dB re 20\muPa)')
     set(gca,'Xdir','reverse')
@@ -94,6 +93,7 @@ else
     xticks(0:10:90)
     ylim([80 120])
     grid on
+    box on
 end
 % legend(labels,'FontSize',16,'Location','South')
 %%

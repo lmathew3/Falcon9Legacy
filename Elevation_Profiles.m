@@ -1,5 +1,5 @@
-
-% plotStyle('standard','medium',3,1.75,22,'modern')
+dn = 100;
+plotStyle('FontStyle','classic','FontSize',16,'LineWidth',1.75,'ColorScheme',1,'AspectRatio','square','PlotSize','small','Orientation','landscape')
 NF_distance = [-0.439, 43.446, 73.178, 111.907, 155.683, 199.458, 238.406, 282.181, ...
   321.02, 364.795, 413.508, 462.11, 510.823, 544.834, 603.201, ...
   661.568, 690.862, 744.292, 778.413, 812.423, 856.199, 899.974, ...
@@ -31,8 +31,7 @@ NF_elevation = [154.755, ...
   29.425, 29.425, 29.425, 40.604, 47.67, 54.139, 54.736, 51.784, ...
   51.187, 41.202, 16.487, 14.729, 15.89, 15.293, 15.89, 15.89];
 N = floor(NF_distance(end));
-dn = 1;
-NF_grid = dn:dn:N;
+NF_grid = 0:dn:N;
 NF_Elevation_Interp = interp1(NF_distance,NF_elevation,NF_grid,'pchip');
 
 EF_distance = [0, 48.184, 76.842, 118.728, 160.771, 209.584, 251.627, 321.384, ...
@@ -65,8 +64,7 @@ EF_elevation = [156.232, 160.991, 169.677, 174.596, 178.126, ...
   137.273, 128.15, 122.518, 125.334, 114.07, 109.112, 103.48, 92.256, ...
   82.38, 70.401, 57.749, 47.199, 40.139, 34.507, 18.324, 26.772];
 N = floor(EF_distance(end));
-dn = 1;
-EF_grid = dn:dn:N;
+EF_grid = 0:dn:N;
 EF_Elevation_Interp = interp1(EF_distance,EF_elevation,EF_grid,'pchip');
 
 MIG_distance = [0, 53.075, 53.644, 107.287, 196.756, 295.134, 384.603, 500.8, ...
@@ -130,15 +128,14 @@ MIG_elevation = [155.029, 159.559, 169.654, 177.032, ...
   206.282, 223.432, 236.827, 239.286, 219.743, 202.658, 184.344, ...
   170.884, 162.342, 156.259, 137.945, 117.172, 107.4, 95.169, 90.315];
 N = floor(MIG_distance(end));
-dn = 1;
-MIG_grid = dn:dn:N;
+MIG_grid = 0:dn:N;
 MIG_Elevation_Interp = interp1(MIG_distance,MIG_elevation,MIG_grid,'pchip');
 
 figure
 plot(NF_distance,NF_elevation,EF_distance,EF_elevation,MIG_distance,MIG_elevation)
 xlabel('Horizontal Distance (m)')
 ylabel('Elevation (m)') 
-
+%%
 figure
 plot(NF_grid,NF_Elevation_Interp,EF_grid,EF_Elevation_Interp,MIG_grid,MIG_Elevation_Interp)
 xlabel('Horizontal Distance (m)')
@@ -148,5 +145,6 @@ hold on
 plot(0,155,'*')
 hold off
 legend('North/West Field','East Field','Miguelito','Launch Site','Location','NorthWest')
+%%
 figure
 plot(MIG_distance,MIG_elevation,MIG_grid,MIG_Elevation_Interp)

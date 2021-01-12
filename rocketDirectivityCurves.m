@@ -3,6 +3,9 @@ oaspl = [105 113 114 115 116 117 118 119 120 121 122 123 124 125 126 127 128 127
 
 plotStyle('FontStyle','modern','FontSize',22,'LineWidth',1.75,'ColorScheme',1,'AspectRatio','standard','PlotSize','medium')
 %%
+oaspl = oaspl + 20*log10(570*3.88/5980);
+
+
 figure 
 plot(theta(2:end),oaspl(2:end))
 xlabel('Angle re Plume (Deg)')
@@ -12,6 +15,7 @@ title('RSRM OASPL at d \approx 570 D_e, DSM-1 Model Correction')
 dth = 5;
 grid = 0:dth:180;
 oaspl_interp = interp1(theta,oaspl,grid,'spline');
+
 
 figure
 scatter(theta,oaspl,40,'filled')

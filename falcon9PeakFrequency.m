@@ -1,8 +1,9 @@
-%% Peak Frequency Script
+%% Peak Frequency Script;
 clear tpk fpk;
 launch = 'RADARSAT Constellation';
 site = 'West Field';
 data_type = 'Waveform';
+data_path = 'E:\ASA Falcon 9 Analysis\';
 [data,CH,mic,config] = loadFalcon9Data(launch,site,data_type,data_path);
 x = data.waveformData.p;
 fs = data.waveformData.fs;
@@ -13,6 +14,11 @@ ns = fs*4;
 pct = 90; % Percent overlap between blocks
 numBlocks = floor(length(x)/(specLength*fs*(100-pct)/100))-1;
 sizeBlocks = floor(length(x)/numBlocks);
+
+De = 2.76; % Equivalent exhasut diameter
+Ue = 3100; % Exit (plume) Velocity
+c0 = 340; % Ambient Speed of Sound
+ce = 910; % Speed of sound in plume
 
 for i = 1:numBlocks-10
     idx1 = 1 + (i-1)*sizeBlocks;
@@ -30,10 +36,32 @@ for i = 1:numBlocks-10
     fpk(i) = f(meanVal); % Assign value for peak frequency
     tpk(i) = t(meanIdx); % Assign cooresponding window time
 end
+%%
+
+s = fpk*(De/Ue); % Traditional Strouhal Number
+c0_scaling = fpk*(De/c0); % Scaling by ambient soundspeed
+ce_scaling = fpk*(De/ce); % Scaling by plume soundspeed
+
+fmax = max(fpk);
+maxs = max(s);
+max_c0_scale = max(c0_scaling);
+max_ce_scale = max(ce_scaling);
 
 figure
 semilogy(tpk,fpk)
-xlabel('Time (s)')
 ylabel('Peak Frequency (Hz)')
+yyaxis right
+semilogy(tpk,s)
+ylabel('Strouhal Number')
+xlabel('Time (s)')
 grid on
 
+figure
+yyaxis left
+semilogy(tpk,c0_scaling)
+xlabel('Time (s)')
+ylabel('fd/c_0')
+yyaxis right
+semilogy(tpk,ce_scaling)
+ylabel('fd/c_e')
+grid on

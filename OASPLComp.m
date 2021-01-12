@@ -41,15 +41,8 @@ set(0,'DefaultAxesColorOrder',colvect);
 set(0,'DefaultAxesLineStyleOrder',{'-','--'});  %plots all solid lines, and then dashed
 
  
-
- 
-
- 
-
- 
-
-
-cd 'C:\Users\logan\Box\ASA Falcon 9 Analysis\MAT Files'
+cd 'E:\ASA Falcon 9 Analysis\MAT Files'
+addpath('C:\Users\logan\Box\Git Repo Clones\BYU Acoustics\Jet Noise\Rocket Noise Group\Rocket Launches\Falcon 9\vandenberg-afb-falcon-9-launches')
 I7OASPL = open('IRIDIUM 7_North Field CH0 378A07_COUGAR_OASPL_DATA.mat');
 S1AOASPL = open('SAOCOM 1A_North Field CH0 378A07_COUGAR_OASPL_DATA.mat');
 RCOASPL = open('RADARSAT Constellation_North Field CH9 378A07_COUGAR_OASPL_DATA.mat');
@@ -64,12 +57,16 @@ ylabel('OASPL (dB re 20\muPa)')
 xlabel('Time (s)')
 xlim([0 475])
 yyaxis right
-plot(propogatedTime-dt0,angleRelativePlume)
+clear t
+launch = 'RADARSAT Constellation';
+[t,a,distToRocket,downrangeFromSite,angleRelativePlume] = getRocketTrajectory(launch,'SoundSpeed',340,'DistFromPad',8300,'Angle',theta,'ZeroPad',5);
+plot(t(1:end-1),angleRelativePlume)
+ylim([-10 90])
 ylabel('Angle re Plume (Degrees)')
 legend('IRIDIUM 7 NEXT','SAOCOM 1A','RADARSAT Constellation','Angle re Plume')
 % title({'OASPL Across Launches','at North Field Location'})
 
-print(gcf,'Falcon9','-dtiff','-r600');
+% print(gcf,'Falcon9','-dtiff','-r600');
 % if save_figs == 1
 %     saveas(gcf,fullfile(['C:\Users\logan\Box\ASA Falcon 9 Analysis\'],'Falcon 9 North Field Site OASPL Comparison.svg'))
 %     saveas(gcf,fullfile(['C:\Users\logan\Box\ASA Falcon 9 Analysis\'],'Falcon 9 North Field Site OASPL Comparison.png'))

@@ -9,7 +9,7 @@ dSPole = @(r,dth) 4.*pi.*r.^2.*sind(dth./4).^2; % Area weighting factor for thet
 dSReg = @(r,th,dth) 4.*pi.*r.^2.*sind(th).*sind(dth./2); % Area weighting factor for 0<theta<180 deg.
 
 %% Establish directivity
-data_path = 'F:\ASA Falcon 9 Analysis\';
+data_path = 'E:\ASA Falcon 9 Analysis\';
 f9IntParams = importdata('f9IntParams.mat');
 LIN = 9; % Select location
 r0 = f9IntParams(5,LIN); % Radius from launch complex to measurement location
