@@ -4,15 +4,15 @@
 % OASPLs from measurement sites created using the Falcon_9_Analysis
 % script.
 
-plotStyle('FontStyle','classic','FontSize',22,'LineWidth',1.75,'ColorScheme',1)
+plotStyle('FontStyle','classic','FontSize',22,'LineWidth',1.75,'ColorScheme',1,'Orientation','portrait','AspectRatio','square','PlotSize','medium')
 %%
 
 tStart = 0
-tEnd = 440;%476;
+tEnd = 120;%476;
 
 tiled = 0;
 
-data_path = 'F:\ASA Falcon 9 Analysis\';
+data_path = 'E:\ASA Falcon 9 Analysis\';
 % I7_NF = open(fullfile([data_path,'IRIDIUM 7\North Field\MAT Files\','IRIDIUM 7_North Field CH0 378A07_COUGAR_OASPL.mat']));
 % I7_WF1 = open(fullfile([data_path,'IRIDIUM 7\West Field 1\MAT Files\','IRIDIUM 7_West Field 1 CH0 378A07_COUGAR_OASPL.mat']));
 % I7_WF2 = open(fullfile([data_path,'IRIDIUM 7\West Field 2\MAT Files\','IRIDIUM 7_West Field 2 CH0 378A07_COUGAR_OASPL.mat']));
@@ -28,10 +28,10 @@ I7_WF1_Plot = 0;
 I7_WF2_Plot = 0;
 S1A_NF_Plot = 0;
 S1A_WF_Plot = 0;
-RC_NF_Plot = 0;
+RC_NF_Plot = 1;
 RC_WF_Plot = 1;
-RC_EF_Plot = 0;
-RC_MG_Plot = 0;
+RC_EF_Plot = 1;
+RC_MG_Plot = 1;
 
 numPlots = I7_NF_Plot + I7_WF1_Plot + I7_WF2_Plot + S1A_NF_Plot + S1A_WF_Plot + RC_NF_Plot + RC_WF_Plot + RC_EF_Plot + RC_MG_Plot;
 

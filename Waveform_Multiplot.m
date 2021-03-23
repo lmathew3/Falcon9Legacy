@@ -1,18 +1,20 @@
 clear; clc; close all;
 %%
-data_path = 'F:\ASA Falcon 9 Analysis\';
+data_path = 'E:\ASA Falcon 9 Analysis\';
 
 plotStyle('FontStyle','classic','FontSize',22,'LineWidth',1.75,'ColorScheme',1,'AspectRatio','standard','PlotSize','large')
 %% Parameters
 pref = 2e-5;
 t_offset = 9.78;
-times = [1/51200, 0+t_offset,30+t_offset,100+t_offset,300+t_offset];
+times = [1/51200, 0+t_offset,42+t_offset,100+t_offset,300+t_offset];
 spec_duration = 8;
 third_octave_multiplot = 1;
 fmin = 0.5;
 fmax = 20000;
 fHighPass = 0.5;
-highPass = 1;
+highPass = 0;
+fLowPass = 300;
+lowPass = 0;
 
 %% Run Calculations
 launch = 'RADARSAT Constellation';
@@ -23,10 +25,15 @@ x = data.waveformData.p;
 fs = data.waveformData.fs;
 dt = 1/fs;
 
+if lowPass == 1
+    [B,A] = butter(2,fLowPass*2/fs,'low');
+    x = filter(B,A,x);
+end
+
 if third_octave_multiplot == 1
     for i = 1:length(times)
         % Autospectrum
-        [multiGxx(i,:),f,~] = autospec(x((times(i)*fs):(times(i) + spec_duration)*fs -1),fs,fs*4,spec_duration*fs);
+        [multiGxx(i,:),f,OASPLs(i)] = autospec(x((times(i)*fs):(times(i) + spec_duration)*fs -1),fs,fs*4,spec_duration*fs);
         % Fractional Octave
         [multiSpec(i,:),fc]=FractionalOctave(f,multiGxx(i,:),[fmin fmax],3);
         totalSpec(i,:) = 10.*log10(multiSpec(i,:)./pref^2);
@@ -45,7 +52,10 @@ grid on
 xlim([fmin fmax])
 xlabel('Frequency (Hz)')
 ylabel('SPL (dB re 20\muPa)')
-legend('Ambient','I','II','III','IV','Location','NorthEast')
+legend(['Ambient, OASPL = ',sprintf('%0.4f',OASPL(1)),' dB'],['I, OASPL = ',sprintf('%0.4f',OASPL(2)),' dB'],...
+    ['II, OASPL = ',sprintf('%0.4f',OASPL(3)),' dB'],...
+    ['III, OASPL = ',sprintf('%0.4f',OASPL(4)),' dB'],...
+    ['IV, OASPL = ',sprintf('%0.4f',OASPL(5)),' dB'],'Location','NorthEast')
 title('One-Third Octave Band Spectra')
 xlim([1 20000])
 % ylim([-30 120])

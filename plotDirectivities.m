@@ -3,7 +3,7 @@ plotStyle('FontStyle','classic','FontSize',16,'LineWidth',1,'ColorScheme',1,'Asp
 data_path = 'E:\ASA Falcon 9 Analysis\';
 f9IntParams = importdata('f9IntParams.mat');
 f9NameParams = importdata('f9NameParams.mat');
-locations = [1 3 4 5 6 7 9];
+locations = [1 2 3 4 5 6 7 9];
     
 polar = 0;
 smoothing = 0;
@@ -81,20 +81,21 @@ else
     figure
 %     plot(arp',OASPL')
     hold on
-    plot(arpMean,OASPLmean,'k','LineWidth',2,'MarkerSize',10,'MarkerIndices',[10:10:90])
+    
 %     patch([arpMean fliplr(arpMean)], [OASPLmin fliplr(OASPLmax)], [.89, 0, .23], 'FaceAlpha',0.5, 'EdgeColor','none')
     patch([arpMean fliplr(arpMean)], [OASPLmean-OASPLstd fliplr(OASPLmean+OASPLstd)], [0, .6, .77], 'FaceAlpha',0.5, 'EdgeColor','none')
     %     plot(arpMedian,OASPLmedian,'o-r','LineWidth',2,'MarkerSize',10,'MarkerIndices',[5:10:85])
-        hold off
+    plot(arpMean,OASPLmean,'k','LineWidth',2,'MarkerSize',10,'MarkerIndices',[10:10:90])
+    hold off
     xlabel('Angle re Plume (Deg)')
     ylabel('OASPL (dB re 20\muPa)')
     set(gca,'Xdir','reverse')
     xlim([0 90])
     xticks(0:10:90)
-    ylim([80 120])
+    ylim([90 120])
     grid on
     box on
 end
-% legend(labels,'FontSize',16,'Location','South')
+legend('Std. Dev.','Mean','FontSize',16,'Location','northeast')
 %%
 

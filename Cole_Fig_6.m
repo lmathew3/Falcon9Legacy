@@ -12,25 +12,25 @@ I = readmatrix('I_1k.csv')';
 
 figure
 hold on
-scatter(A(1,:),A(2,:),'^','LineWidth',3)
-scatter(B(1,:),B(2,:),'x','LineWidth',3)
-scatter(C(1,:),C(2,:),'o','LineWidth',3)
-scatter(D(1,:),D(2,:),'filled','d','LineWidth',3)
-scatter(E(1,:),E(2,:),'filled','v','LineWidth',3)
-scatter(G(1,:),G(2,:),'v','LineWidth',3)
-scatter(G(1,:),G(2,:),'+','LineWidth',3)
-scatter(H(1,:),H(2,:),'d','LineWidth',3)
-scatter(I(1,:),I(2,:),'<','LineWidth',3)
+% scatter(A(1,:),A(2,:),'^','LineWidth',3)
+% scatter(B(1,:),B(2,:),'x','LineWidth',3)
+% scatter(C(1,:),C(2,:),'o','LineWidth',3)
+% scatter(D(1,:),D(2,:),'filled','d','LineWidth',3)
+% scatter(E(1,:),E(2,:),'filled','v','LineWidth',3)
+% scatter(G(1,:),G(2,:),'v','LineWidth',3)
+% scatter(G(1,:),G(2,:),'+','LineWidth',3)
+% scatter(H(1,:),H(2,:),'d','LineWidth',3)
+% scatter(I(1,:),I(2,:),'<','LineWidth',3)
 % 
-% plot(A(1,:),A(2,:),'-^')
-% plot(B(1,:),B(2,:),'-x')
-% plot(C(1,:),C(2,:),'-o')
-% plot(D(1,:),D(2,:),'filled','-d')
-% plot(E(1,:),E(2,:),'filled','-v')
-% plot(G(1,:),G(2,:),'-v')
-% plot(G(1,:),G(2,:),'-+')
-% plot(H(1,:),H(2,:),'-d')
-% plot(I(1,:),I(2,:),'-<')
+plot(A(1,:),A(2,:),'-^')
+plot(B(1,:),B(2,:),'-x')
+plot(C(1,:),C(2,:),'-o')
+plot(D(1,:),D(2,:),'-d')
+plot(E(1,:),E(2,:),'-v')
+plot(G(1,:),G(2,:),'-v')
+plot(G(1,:),G(2,:),'-+')
+plot(H(1,:),H(2,:),'-d')
+plot(I(1,:),I(2,:),'-<')
 
 legend('A, 130,000 LBS','B, 130,000 LBS','C, 100,000 LBS','D, 78,000 LBS',...
     'E, 48,400 LBS','F, 34,000 LBS','G, 10,000 LBS','H, 5,000 LBS',...

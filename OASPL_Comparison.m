@@ -8,11 +8,11 @@ clear;
 plotStyle('FontStyle','classic','FontSize',22,'ColorScheme',1,'AspectRatio','standard','PlotSize','medium','Orientation','portrait')
 
 tStart = 0;
-tEnd = 120;%440;
+tEnd = 100;%440;
 
 tiled = 0;
 
-data_path = 'F:\ASA Falcon 9 Analysis\';
+data_path = 'E:\ASA Falcon 9 Analysis\';
 
 I7_NF_Plot = 0;
 I7_WF1_Plot = 0;
@@ -21,8 +21,8 @@ S1A_NF_Plot = 0;
 S1A_WF_Plot = 0;
 RC_NF_Plot = 1;
 RC_WF_Plot = 1;
-RC_EF_Plot = 1;
-RC_MG_Plot = 1;
+RC_EF_Plot = 0;
+RC_MG_Plot = 0;
 
 numPlots = I7_NF_Plot + I7_WF1_Plot + I7_WF2_Plot + S1A_NF_Plot + S1A_WF_Plot + RC_NF_Plot + RC_WF_Plot + RC_EF_Plot + RC_MG_Plot;
 

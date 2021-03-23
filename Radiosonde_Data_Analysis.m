@@ -95,6 +95,16 @@ for i = 1:length(altitude)
     end
 end
 
+% Construct Matrix for Altitude-Pressure
+j = 1;
+for i = 1:length(altitude)
+    if (altitude(i) ~= -9999 && round(pressure(i)) ~= -9999)
+        ap(j,1) = altitude(i);
+        ap(j,2) = pressure(i);
+        j = j + 1;
+    end
+end
+
 % Construct Matrix for Altitude-Dewpoint Depression
 j = 1;
 for i = 1:length(altitude)
@@ -119,51 +129,52 @@ end
 %% Sort by ascending altitude
 at1 = sortrows(at);
 ad1 = sortrows(ad);
-aw1 = sortrows(aw);
+[~,ia] = unique(aw(:,1));
+aw1 = sortrows(aw(ia,:));
 %% Convert Dewpoint Depression to RH
 RH = 100 - 5.*ad1(:,2);
 %% Plot results
-figure
-plot(at1(:,2),at1(:,1).*1e-3)
-xlabel('Temperature (°C)')
-ylabel('Altitude (km)')
-title(['Atmospheric Temperature Profile, ',launch,', ',time])
+% figure
+% plot(at1(:,2),at1(:,1).*1e-3)
+% xlabel('Temperature (°C)')
+% ylabel('Altitude (km)')
+% title(['Atmospheric Temperature Profile, ',launch,', ',time])
 
-figure
-plot(ad1(:,2),ad1(:,1).*1e-3)
-xlabel('Dewpoint Depression (°C)')
-ylabel('Altitude (km)')
-title(['Atmospheric Dewpoint Profile, ',launch,', ',time])
+% figure
+% plot(ad1(:,2),ad1(:,1).*1e-3)
+% xlabel('Dewpoint Depression (°C)')
+% ylabel('Altitude (km)')
+% title(['Atmospheric Dewpoint Profile, ',launch,', ',time])
 
-figure
-plot(RH,ad1(:,1).*1e-3)
-xlabel('Relative Humidity (%)')
-ylabel('Altitude (km)')
-title(['Relative Humidity Profile, ',launch,', ',time])
+% figure
+% plot(RH,ad1(:,1).*1e-3)
+% xlabel('Relative Humidity (%)')
+% ylabel('Altitude (km)')
+% title(['Relative Humidity Profile, ',launch,', ',time])
 
-figure
-plot(aw1(:,2),aw1(:,1).*1e-3)
-xlabel('Windspeed (m/s)')
-ylabel('Altitude (km)')
-title(['Atmospheric Windspeed Profile, ',launch,', ',time])
+% figure
+% plot(aw1(:,2),aw1(:,1).*1e-3)
+% xlabel('Windspeed (m/s)')
+% ylabel('Altitude (km)')
+% title(['Atmospheric Windspeed Profile, ',launch,', ',time])
 
-figure
-plot(aw1(:,3),aw1(:,1).*1e-3)
-xlabel('Wind Direction (degrees)')
-ylabel('Altitude (km)')
-title(['Atmospheric Wind Direction Profile, ',launch,', ',time])
+% figure
+% plot(aw1(:,3),aw1(:,1).*1e-3)
+% xlabel('Wind Direction (degrees)')
+% ylabel('Altitude (km)')
+% title(['Atmospheric Wind Direction Profile, ',launch,', ',time])
 
 ns_wind = -aw1(:,2).*cosd(aw1(:,3));
 ew_wind = -aw1(:,2).*sind(aw1(:,3));
-t = tiledlayout(1,2)
-nexttile
-plot(ns_wind,aw1(:,1).*1e-3)
-xlabel('N-S Windspeed (m/s)')
-nexttile
-plot(ew_wind,aw1(:,1).*1e-3)
-xlabel('E-W Windspeed (m/s)')
-ylabel(t,'Altitude (km)')
-title(t,['Atmospheric Windspeed Profiles, ',launch,', ',time])
+% t = tiledlayout(1,2)
+% nexttile
+% plot(ns_wind,aw1(:,1).*1e-3)
+% xlabel('N-S Windspeed (m/s)')
+% nexttile
+% plot(ew_wind,aw1(:,1).*1e-3)
+% xlabel('E-W Windspeed (m/s)')
+% ylabel(t,'Altitude (km)')
+% title(t,['Atmospheric Windspeed Profiles, ',launch,', ',time])
 
 %% Windspeed towards sites
 aw = aw1(:,1).*1e-3;
@@ -179,23 +190,23 @@ WS_NF = WS(ns_wind,ew_wind,hdg_NF);
 WS_WF = WS(ns_wind,ew_wind,hdg_WF);
 WS_EF = WS(ns_wind,ew_wind,hdg_EF);
 WS_MG = WS(ns_wind,ew_wind,hdg_MG);
-
-figure
-plot(WS_NF,aw,WS_WF,aw,WS_EF,aw,WS_MG,aw)
-xlabel('Windspeed (m/s)')
-ylabel('Altitude (km)')
-title(['Atmospheric Windspeed Profile, ',launch,', ',time])
-legend('North Field','West Field','East Field','Miguelito')
+% 
+% figure
+% plot(WS_NF,aw,WS_WF,aw,WS_EF,aw,WS_MG,aw)
+% xlabel('Windspeed (m/s)')
+% ylabel('Altitude (km)')
+% title(['Atmospheric Windspeed Profile, ',launch,', ',time])
+% legend('North Field','West Field','East Field','Miguelito')
 %% Speed of Sound with Temperature
 c = @(Tc) 331.*sqrt((Tc + 273.15)./273.15);
 
 c_temp = c(at1(:,2));
-figure
-plot(c_temp,at1(:,1).*1e-3)
-xlabel('Sound Speed (m/s)')
-ylabel('Altitude (km)')
-title({'Atmospheric Soundspeed Profile', [launch,', ',time]})
-legend('North Field','West Field','East Field','Miguelito')
+% figure
+% plot(c_temp,at1(:,1).*1e-3)
+% xlabel('Sound Speed (m/s)')
+% ylabel('Altitude (km)')
+% title({'Atmospheric Soundspeed Profile', [launch,', ',time]})
+% legend('North Field','West Field','East Field','Miguelito')
 %% Interpolation
 % Since the temperature/windspeed data points are on different grids,
 % we must interpolate them onto an even grid that matches up.
@@ -207,31 +218,37 @@ WS_WF_INT = interp1(transpose(aw),transpose(WS_WF),grid,'pchip');
 WS_EF_INT = interp1(transpose(aw),transpose(WS_EF),grid,'pchip');
 WS_MG_INT = interp1(transpose(aw),transpose(WS_MG),grid,'pchip');
 c_temp_INT = interp1(transpose(at1(:,1).*1e-3),transpose(c_temp),grid,'pchip');
+% 
+% figure
+% plot(WS_NF_INT,grid,WS_WF_INT,grid,WS_EF_INT,grid,WS_MG_INT,grid)
+% xlabel('Windspeed (m/s)')
+% ylabel('Altitude (km)')
+% title({'Interpolated Atmospheric Windspeed Profile', [launch,', ',time]})
+% legend('North Field','West Field','East Field','Miguelito')
 
-figure
-plot(WS_NF_INT,grid,WS_WF_INT,grid,WS_EF_INT,grid,WS_MG_INT,grid)
-xlabel('Windspeed (m/s)')
-ylabel('Altitude (km)')
-title({'Interpolated Atmospheric Windspeed Profile', [launch,', ',time]})
-legend('North Field','West Field','East Field','Miguelito')
-
-figure
-plot(c_temp_INT,grid)
-xlabel('Sound Speed (m/s)')
-ylabel('Altitude (km)')
-title({'Atmospheric Soundspeed Profile', [launch,', ',time]})
+% figure
+% plot(c_temp_INT,grid)
+% xlabel('Sound Speed (m/s)')
+% ylabel('Altitude (km)')
+% title({'Atmospheric Soundspeed Profile', [launch,', ',time]})
 
 c_tot_NF = c_temp_INT + WS_NF_INT;
 c_tot_WF = c_temp_INT + WS_WF_INT;
 c_tot_EF = c_temp_INT + WS_EF_INT;
 c_tot_MG = c_temp_INT + WS_MG_INT;
-figure
-plot(c_tot_NF,grid,c_tot_WF,grid,c_tot_EF,grid,c_tot_MG,grid)
-xlabel('Sound Speed (m/s)')
-ylabel('Altitude (km)')
-title({'Atmospheric Soundspeed Profile', [launch,', ',time]})
-legend('North Field','West Field','East Field','Miguelito')
+% figure
+% plot(c_tot_NF,grid)
+% hold on
+% plot(c_tot_WF,grid,'--')
+% plot(c_tot_EF,grid,':')
+% plot(c_tot_MG,grid,'-.')
+% xlabel('Effective Sound Speed (m/s)')
+% ylabel('Altitude (km)')
+% title({'Atmospheric Soundspeed Profile', [launch,', ',time]})
+% legend('North Field','West Field','East Field','Miguelito')
+% ylim([0 20])
+% grid on
 
 %% Ray Tracing
-theta0 = 7.1;
-[xxf, zzf, ttf, ddf] = raytrace(0,150,theta0,100,grid.*1e3,c_temp_INT,1);
+% theta0 = 7.1;
+% [xxf, zzf, ttf, ddf] = raytrace(0,150,theta0,100,grid.*1e3,c_temp_INT,1);

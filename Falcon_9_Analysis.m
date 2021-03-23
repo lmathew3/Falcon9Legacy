@@ -29,7 +29,7 @@ plotStyle()
 %***************************************************************************************************
 %% Filepaths
 % Path to folder containing data
-data_path = 'F:\ASA Falcon 9 Analysis\';
+data_path = 'E:\ASA Falcon 9 Analysis\';
 %% Station and Launch, Figure selection
 %---Enter Location Identification Number Here---
 % 1 - IRIDIUM 7 West Field 1

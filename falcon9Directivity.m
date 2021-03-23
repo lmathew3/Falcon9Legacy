@@ -5,7 +5,7 @@ LIN = 7; % Select location
 r0 = f9IntParams(5,LIN); % Radius from launch complex to measurement location
 theta = f9IntParams(7,LIN); % Angle from launch complex to measurement location, relative true North
 [t,a,distToRocket,downrangeFromSite,angleRelativePlume] = getRocketTrajectory(launch,'SoundSpeed',340,'DistFromPad',r0,'Angle',theta,'ZeroPad',5);
-
+%%
 data = loadFalcon9Data(launch,'North Field','Waveform',data_path); % Load Waveform Data
 t = data.waveformData.t; % Load cooresponding time series
 x = data.waveformData.p;
