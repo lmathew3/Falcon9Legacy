@@ -10,7 +10,7 @@ smoothing = 0;
 numPoints = 5;
 
 commonDist = 1; % Correct all to common distance
-rcomm = 5980; % Number of meters for common correction
+rcomm = 6500; % Number of meters for common correction
 
 labels = {};
 

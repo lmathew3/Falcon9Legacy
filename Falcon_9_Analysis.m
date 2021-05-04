@@ -41,7 +41,7 @@ data_path = 'E:\ASA Falcon 9 Analysis\';
 % 7 - RADARSAT Constellation West Field
 % 8 - RADARSAT Constellation Miguelito
 % 9 - RADARSAT Constellation East Field
-LIN = 8;
+LIN = 7;
 %---Enter Channel to Analyze---
 % IRIDIUM 7 West Field 1: 0,1*,2,3,4,5,6,7
 % IRIDIUM 7 West Field 2: 0*,1,2
@@ -52,18 +52,18 @@ LIN = 8;
 % RADARSAT Constellation West Field: 0*,1,3,4 !!!!
 % RADARSAT Constellation Miguelito: 0*,1 !!
 % RADARSAT Constellation East Field: 0*,1 !!
-CHnum = 0;
+CHnum = 1;
 %---Enter What Figures To Produce---
 % 0 - Do Not Produce Figure
 % 1 - Produce Figure
-time_waveform_plot = 1;
-OASPL_plot = 1;
+time_waveform_plot = 0;
+OASPL_plot = 0;
 OASPL_Dist_Corr_plot = 0;
 OASPL_Norm_vs_Dist_Corr_Plot = 0;
 OASPL_down_3_dB_plot = 0;
 fine_spectra_down_3_dB_plot = 0;
 third_octave_down_3_dB_plot = 0;
-third_octave_multiplot = 0;
+third_octave_multiplot = 1;
 third_octave_multiplot_re_ambient = 0;
 dSk_as_func_of_time_plot = 0;
 dSk_as_func_of_time_plot_first_First150Sec = 0;
@@ -353,7 +353,7 @@ end
 if fine_spectra_down_3_dB_plot == 1
     % Fine Spectra Plot
     figure
-    semilogx(f,10*log10(dXdBGxxAll/pref^2))
+    semilogx(f,10*log10(dXdBGxx/pref^2))
     grid on
     xlabel('Frequency (Hz)')
     ylabel('SPL (dB, re 20\muPa)')
