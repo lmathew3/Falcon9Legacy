@@ -1,4 +1,4 @@
-%% Use in conjunction with Spectrum_Analysis.m
+Script use%% Use in conjunction with Spectrum_Analysis.m
 %% Spectra
 tStart = 38;
 tEnd = 46;

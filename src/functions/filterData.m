@@ -1,6 +1,6 @@
 function filtered = filterData(x,f_filter,fs,filterType,varargin)
-% filtered = filterData(x,filterType,varargin)
-% Function that creates and applies a custom filter to data
+% filtered = filterData(x,f_filter,fs,filterType,varargin)
+% Function that creates and applies a custom order Butterworth filter to data
 % Inputs:
 %   x - Time series data
 %   f_filter - Cutoff/pass/stop frequency for filter design

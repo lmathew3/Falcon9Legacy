@@ -1,4 +1,4 @@
-plotStyle('FontStyle','modern','FontSize',22,'LineWidth',1.75,'ColorScheme',1,'AspectRatio','standard','PlotSize','medium','Orientation','landscape')
+% plotStyle('FontStyle','modern','FontSize',22,'LineWidth',1.75,'ColorScheme',1,'AspectRatio','standard','PlotSize','medium','Orientation','landscape')
 Wmech = 1e6:1e5:1e11;
 n1 = 0.001;
 n2 = 0.002;

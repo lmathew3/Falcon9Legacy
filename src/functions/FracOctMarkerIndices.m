@@ -1,4 +1,21 @@
-function [ind]=FracOctMarkerIndices(xfc,flims,width)
+function [ind] = fracOctMarkerIndices(xfc,flims,width)
+% [ind] = fracOctMarkerIndices(xfc,flims,width)
+% Function that returns fractional octave (prop. band) spaced indices for
+% plotting with markers, etc. Based on methods from FractionalOctave.m.
+%
+% INPUTS:
+%   xfc - center frequencies from prop. band spectrum (usually given by
+%   FractionalOctave.m script.
+%   flims - frequency range limits, e.g. [20 20000]
+%   width - kind of like the octave bin width specifier. So, if you want
+%   markers spaced at octave band intervals, then specify 1. 
+% OUTPUTS:
+%   ind - indices for the markers you desire
+%
+% Author: Logan Mathews
+% Updated: March 2021
+%
+
 %Preferred band center frequency list
 % This list obtained from http://www.cross-spectrum.com/audio/articles/center_frequencies.html
 fcsub = [1:.03:1.18, 1.22, 1.25, 1.28, 1.32, 1.36, 1.40:.05:2,2.06:.06:2.36,...
