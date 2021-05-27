@@ -5,10 +5,15 @@
 % time series data from measurement sites created using the Falcon_9_Analysis
 % script.
 
-plotStyle('FontStyle','classic','FontSize',16,'ColorScheme',1,'AspectRatio','widescreen','PlotSize','medium','Orientation','portrait')
+plotStyle('StandardStyle','custom','FontStyle','classic','FontSize',16,'ColorScheme',1,'AspectRatio','widescreen','PlotSize','medium','Orientation','portrait')
+usePackage GeneralSignalProcessing
+usePackage Falcon9Legacy
 %%
-% tStart = 38;
-% tEnd = 46;
+addpath('E:\Rocket Noise\Falcon 9')
+f9IntParams = importdata('f9IntParams.mat');
+
+% tStart = 36;
+% tEnd = 44;
 
 tStart = 56;
 tEnd = 64;
@@ -26,7 +31,7 @@ proportional = 1; % Proportional (OTO) band spectra option, 0 for narrowband, 1 
 
 c = 340;
 
-corrToCommonDist = 0;
+corrToCommonDist = 1;
 r = f9IntParams(5,7);
 theta = f9IntParams(7,7); % Relative angle from pad to site
 [t,~,dtr] = getRocketTrajectory('RADARSAT Constellation','SoundSpeed',c,'DistFromPad',r,'Angle',theta); % Load in trajectory for distance to the rocket
@@ -35,7 +40,7 @@ commonr = dtr((tEnd-tStart)/2 + 1); % Distance to the rocket at the mean time va
 
 tiled = 0;
 
-data_path = 'E:\ASA Falcon 9 Analysis\';
+data_path = 'E:\Rocket Noise\Falcon 9\';
 
 pref = 20e-6;
 
@@ -50,8 +55,6 @@ RC_EF_Plot = 1;
 RC_MG_Plot = 1;
 
 numPlots = I7_NF_Plot + I7_WF1_Plot + I7_WF2_Plot + S1A_NF_Plot + S1A_WF_Plot + RC_NF_Plot + RC_WF_Plot + RC_EF_Plot + RC_MG_Plot;
-
-f9IntParams = importdata('f9IntParams.mat');
 
 %%
 if tiled == 1
@@ -284,13 +287,13 @@ if RC_NF_Plot == 1
         if corrToCommonDist
             levels = levels + corrFactor;
         end
-        semilogx(fc,levels)
+        NF = semilogx(fc,levels);
     else
         levels = 10.*log10(Gxx./pref^2);
         if corrToCommonDist
             levels = levels + corrFactor;
         end
-        semilogx(f,levels)
+        NF = semilogx(f,levels);
     end
     if tiled == 1
         title('RADARSAT Constellation North Field')
@@ -321,13 +324,13 @@ if RC_WF_Plot == 1
         if corrToCommonDist
             levels = levels + corrFactor;
         end
-        semilogx(fc,levels)
+        WF = semilogx(fc,levels);
     else
         levels = 10.*log10(Gxx./pref^2);
         if corrToCommonDist
             levels = levels + corrFactor;
         end
-        semilogx(f,levels)
+        WF = semilogx(f,levels);
     end
     if tiled == 1
         title('RADARSAT Constellation West Field')
@@ -358,13 +361,13 @@ if RC_EF_Plot == 1
         if corrToCommonDist
             levels = levels + corrFactor;
         end
-        semilogx(fc,levels)
+        EF = semilogx(fc,levels);
     else
         levels = 10.*log10(Gxx./pref^2);
         if corrToCommonDist
             levels = levels + corrFactor;
         end
-        semilogx(f,levels)
+        EF = semilogx(f,levels);
     end
     if tiled == 1
         title('RADARSAT Constellation East Field')
@@ -395,13 +398,13 @@ if RC_MG_Plot == 1
         if corrToCommonDist
             levels = levels + corrFactor;
         end
-        semilogx(fc,levels)
+        MG = semilogx(fc,levels);
     else
         levels = 10.*log10(Gxx./pref^2);
         if corrToCommonDist
             levels = levels + corrFactor;
         end
-        semilogx(f,levels)
+        MG = semilogx(f,levels);
     end
     if tiled == 1
         title('RADARSAT Constellation Miguelito')

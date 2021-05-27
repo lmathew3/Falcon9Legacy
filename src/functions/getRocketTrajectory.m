@@ -26,18 +26,18 @@ function [t,a,distToRocket,downrangeFromSite,angleRelativePlume,speed,MachNo] = 
     
     switch launch_trajectory
         case 1
-            data = transpose(xlsread('IRIDIUM7_Analyzed_Telemetry_Data.xlsx')); % Load trajectory data
+            data = transpose(readmatrix('IRIDIUM7_Analyzed_Telemetry_Data.xlsx')); % Load trajectory data
         case 2
-            data = transpose(xlsread('SAOCOM1A_Analyzed_Telemetry_Data.xlsx')); % Load trajectory data
+            data = transpose(readmatrix('SAOCOM1A_Analyzed_Telemetry_Data.xlsx')); % Load trajectory data
         case 3
-            data = transpose(xlsread('RADARSAT_Analyzed_Telemetry_Data.xlsx')); % Load trajectory data
+            data = transpose(readmatrix('RADARSAT_Analyzed_Telemetry_Data.xlsx')); % Load trajectory data
     end
     
-    t = data(1,:); % Time series (s)
-    u = data(2,:); % Corresponding velocity of rocket (m/s)
-    a = data(3,:).*1e3; % Corresponding altitudes of rocket (m)
-    d = data(7,:).*1e3; % Corresponding downrange distance (m), from pad.
-    theta = data(8,:); % Corresponding angle relative to the horizon (degrees)
+    t = data(1,2:end); % Time series (s)
+    u = data(2,2:end); % Corresponding velocity of rocket (m/s)
+    a = data(3,2:end).*1e3; % Corresponding altitudes of rocket (m)
+    d = data(7,2:end).*1e3; % Corresponding downrange distance (m), from pad.
+    theta = data(8,2:end); % Corresponding angle relative to the horizon (degrees)
 
     [distToRocket,downrangeFromSite] = distCalc(r0,theta0,d,a,1,0); % Finding downrange distance from site and straightline distance to rocket.
     angleRelativePlume = asind(downrangeFromSite./distToRocket) - (90-theta); % Calculating angle relative to the rocket exhaust from measurement site.

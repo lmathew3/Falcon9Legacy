@@ -29,7 +29,7 @@ plotStyle()
 %***************************************************************************************************
 %% Filepaths
 % Path to folder containing data
-data_path = 'E:\ASA Falcon 9 Analysis\';
+data_path = 'E:\Rocket Noise\Falcon 9\';
 %% Station and Launch, Figure selection
 %---Enter Location Identification Number Here---
 % 1 - IRIDIUM 7 West Field 1
@@ -41,7 +41,7 @@ data_path = 'E:\ASA Falcon 9 Analysis\';
 % 7 - RADARSAT Constellation West Field
 % 8 - RADARSAT Constellation Miguelito
 % 9 - RADARSAT Constellation East Field
-LIN = 7;
+LIN = 9;
 %---Enter Channel to Analyze---
 % IRIDIUM 7 West Field 1: 0,1*,2,3,4,5,6,7
 % IRIDIUM 7 West Field 2: 0*,1,2
@@ -56,14 +56,14 @@ CHnum = 1;
 %---Enter What Figures To Produce---
 % 0 - Do Not Produce Figure
 % 1 - Produce Figure
-time_waveform_plot = 0;
+time_waveform_plot = 1;
 OASPL_plot = 0;
 OASPL_Dist_Corr_plot = 0;
 OASPL_Norm_vs_Dist_Corr_Plot = 0;
 OASPL_down_3_dB_plot = 0;
 fine_spectra_down_3_dB_plot = 0;
 third_octave_down_3_dB_plot = 0;
-third_octave_multiplot = 1;
+third_octave_multiplot = 0;
 third_octave_multiplot_re_ambient = 0;
 dSk_as_func_of_time_plot = 0;
 dSk_as_func_of_time_plot_first_First150Sec = 0;
@@ -205,9 +205,11 @@ dXdBAll = x((firstDown * oldfs):(lastDown * oldfs));
 %% Read in IRIG Data
 if isIRIG == 1
     IRIG = binfileload(path,'ID',IDnum,IRIGCH);
-
+    opt.resample = 0;
+    opt.plt = 0;
     num_secs_decode = 0;
-    [start_time] = IRIGB(IRIG,oldfs,num_secs_decode,1,2019);
+%     [start_time] = IRIGB(IRIG,oldfs,num_secs_decode,1,2019);
+    [start_time] = IRIGB(2021,IRIG,fs,num_secs_decode,opt);
     t0 = start_time.sec_aft_mid;
     [hrs,min,sec] = sec2time(t0)
 end

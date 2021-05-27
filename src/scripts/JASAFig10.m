@@ -4,13 +4,13 @@
 % OASPLs from measurement sites created using the Falcon_9_Analysis
 % script.
 
-plotStyle('StandardStyle','custom','FontStyle','classic','FontSize',22,'LineWidth',1.75,'ColorScheme',1,'AspectRatio','square','PlotSize','medium')
+plotStyle('StandardStyle','custom','FontStyle','classic','FontSize',24,'LineWidth',1.75,'ColorScheme',1,'AspectRatio','square','PlotSize','medium')
 %%
 usePackage Falcon9Legacy
 usePackage MatlabPlotting
 
-tStart = 0
-tEnd = 120;%476;
+tStart = 0;
+tEnd = 100;
 
 tiled = 0;
 
@@ -35,9 +35,9 @@ f9AltAndDRD = importdata('f9AltAndDRD.mat');
 [d] = f9AltAndDRD(3,:);
 c = 330;
 d0 = 2.76; % Equivalent single-nozzle diameter of Falcon 9, m.
-r0 = 6565;%100*d0; % Common distance (in m) to correct for spherical spreading
+r0 = 13685;%6565;%100*d0; % Common distance (in m) to correct for spherical spreading
 
-ax = figure
+ax = figure;
 hold on
        
 arp = struct;
@@ -96,13 +96,12 @@ if RC_MG_Plot == 1
 
 end
 
-% [t,a,distToRocket,~,~] = getRocketTrajectory('IRIDIUM 7',varargin)
-    xlabel('Time (s)')
-    ylabel('OASPL (dB re 20\muPa)')
-    xlim([tStart-5 tEnd])
+xlabel('Time (s)')
+ylabel('OASPL (dB re 20\muPa)')
+xlim([tStart-5 tEnd])
 
 yyaxis right
-hold on
+
 handles(2,1) = plot(ta.NF(1:end-1),arp.NF,'--o','MarkerIndices',1:10:length(arp.NF),'MarkerSize',8,'Color',[0 0.4470 0.7410]);
 handles(2,2) = plot(ta.WF(1:end-1),arp.WF,'--s','MarkerIndices',1:10:length(arp.WF),'MarkerSize',8,'Color',[0.8500 0.3250 0.0980]);
 handles(2,3) = plot(ta.EF(1:end-1),arp.EF,'--*','MarkerIndices',1:10:length(arp.EF),'MarkerSize',8,'Color',[0.9290 0.6940 0.1250]);
@@ -111,6 +110,7 @@ ax.CurrentAxes.YColor = [0.5 0.5 0.5];
 ylabel('Angle re Plume (Degrees)')
 grid on
 box on
-% hlgd = gridlegend('RowNames',['NF','WF','EF','MG'],'ColumnNames',['Location','OASPL','Angle re Plume'])
-hlgd = gridlegend(handles',{'NF','WF','EF','MG'},{'OASPL','Angle re Plume'},'Location','SouthWest')
-% legend('NF','WF','EF','MG')
+hold off
+
+hlgd = gridlegend(handles',{'NF','WF','EF','MC'},{'OASPL','Angle re Plume'},'Location','South');
+hlgd.Position = [150 99 391.0000 197];

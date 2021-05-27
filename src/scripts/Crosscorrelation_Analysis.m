@@ -2,7 +2,7 @@
 % This script performs cross-correlation analysis on datasets from Vandenberg
 % AFB Falcon 9 Launches using the MATLAB xcorr function
 %% Set Parameters
-data_path = 'F:\ASA Falcon 9 Analysis\';
+data_path = 'E:\Rocket Noise\Falcon 9\';
 data_type = 'Waveform';
 % First site to compare
 launch1 = 'RADARSAT Constellation';
@@ -11,8 +11,8 @@ site1 = 'West Field';
 launch2 = 'RADARSAT Constellation';
 site2 = 'North Field';
 % Option to select portion of time series
-selection = 0;
-tStart = 0;
+selection = 1;
+tStart = 1;
 tEnd = 50;
 %% Load Data
 data1 = loadFalcon9Data(launch1,site1,data_type,data_path);

@@ -4,7 +4,7 @@
 % OASPLs from measurement sites created using the Falcon_9_Analysis
 % script.
 
-plotStyle('FontStyle','classic','FontSize',22,'LineWidth',1.75,'ColorScheme',1,'Orientation','portrait','AspectRatio','square','PlotSize','medium')
+plotStyle('StandardStyle','custom','FontStyle','classic','FontSize',22,'LineWidth',1.75,'ColorScheme',1,'AspectRatio','square','PlotSize','medium')
 %%
 
 tStart = 0
@@ -12,7 +12,8 @@ tEnd = 120;%476;
 
 tiled = 0;
 
-data_path = 'E:\ASA Falcon 9 Analysis\';
+addpath('E:\Rocket Noise\Falcon 9')
+data_path = 'E:\Rocket Noise\Falcon 9\';
 % I7_NF = open(fullfile([data_path,'IRIDIUM 7\North Field\MAT Files\','IRIDIUM 7_North Field CH0 378A07_COUGAR_OASPL.mat']));
 % I7_WF1 = open(fullfile([data_path,'IRIDIUM 7\West Field 1\MAT Files\','IRIDIUM 7_West Field 1 CH0 378A07_COUGAR_OASPL.mat']));
 % I7_WF2 = open(fullfile([data_path,'IRIDIUM 7\West Field 2\MAT Files\','IRIDIUM 7_West Field 2 CH0 378A07_COUGAR_OASPL.mat']));
@@ -51,19 +52,19 @@ r0 = 6565;%100*d0; % Common distance (in m) to correct for spherical spreading
 if tiled == 1
     switch numPlots
         case 1
-            figure
+            ax = figure
         case 2
-            a = tiledlayout(1,2)
+            ax = tiledlayout(1,2)
         case 3
-            a = tiledlayout(1,3)
+            ax = tiledlayout(1,3)
         case 4
-            a = tiledlayout(2,2)
+            ax = tiledlayout(2,2)
         case {5,6}
-            a = tiledlayout(2,3)
+            ax = tiledlayout(2,3)
         case {7,8}
-            a = tiledlayout(2,4)
+            ax = tiledlayout(2,4)
         case 9
-            a = tiledlayout(3,3)
+            ax = tiledlayout(3,3)
     end
 else
     figure 
@@ -168,6 +169,8 @@ if S1A_WF_Plot == 1
     end
 end
 %%
+arp = struct;
+ta = struct;
 if RC_NF_Plot == 1
     if numPlots > 1 && tiled == 1
         nexttile
@@ -175,12 +178,12 @@ if RC_NF_Plot == 1
     %% True Distance To Source Calculation
     r = f9IntParams(5,6); % Radius from launch complex to measurement location
     theta = f9IntParams(7,6); % Angle from launch complex to measurement location, relative true North
-    [t,a,distToRocket,~,~] = getRocketTrajectory('RADARSAT Constellation','SoundSpeed',c,'DistFromPad',r,'Angle',theta);
+    [ta.NF,a,distToRocket,~,arp.NF,~] = getRocketTrajectory('RADARSAT Constellation','SoundSpeed',c,'DistFromPad',r,'Angle',theta);
     
     data = loadFalcon9Data('RADARSAT Constellation','North Field','OASPL',data_path);
     t = data.OASPLData.t;
     OASPL = data.OASPLData.OASPL + 20.*log10(distToRocket(1:length(data.OASPLData.OASPL))./r0);
-    plot(t,OASPL)
+    plot(t,OASPL,'-o','MarkerIndices',1:10:length(OASPL),'MarkerSize',8)
     if tiled == 1
         title('RADARSAT Constellation North Field')
     else
@@ -195,12 +198,12 @@ if RC_WF_Plot == 1
     %% True Distance To Source Calculation
     r = f9IntParams(5,7); % Radius from launch complex to measurement location
     theta = f9IntParams(7,7); % Angle from launch complex to measurement location, relative true North
-    [t,a,distToRocket,~,~] = getRocketTrajectory('RADARSAT Constellation','SoundSpeed',c,'DistFromPad',r,'Angle',theta);
+    [ta.WF,a,distToRocket,~,arp.WF,~] = getRocketTrajectory('RADARSAT Constellation','SoundSpeed',c,'DistFromPad',r,'Angle',theta);
     
     data = loadFalcon9Data('RADARSAT Constellation','West Field','OASPL',data_path);
     t = data.OASPLData.t;
     OASPL = data.OASPLData.OASPL + 20.*log10(distToRocket(1:length(data.OASPLData.OASPL))./r0);
-    plot(t,OASPL)
+    plot(t,OASPL,'-s','MarkerIndices',1:10:length(OASPL),'MarkerSize',8)
     if tiled == 1
         title('RADARSAT Constellation West Field')
     else
@@ -214,12 +217,12 @@ if RC_EF_Plot == 1
     %% True Distance To Source Calculation
     r = f9IntParams(5,8); % Radius from launch complex to measurement location
     theta = f9IntParams(7,8); % Angle from launch complex to measurement location, relative true North
-    [t,a,distToRocket,~,~] = getRocketTrajectory('RADARSAT Constellation','SoundSpeed',c,'DistFromPad',r,'Angle',theta);
+    [ta.EF,a,distToRocket,~,arp.EF,~] = getRocketTrajectory('RADARSAT Constellation','SoundSpeed',c,'DistFromPad',r,'Angle',theta);
     
     data = loadFalcon9Data('RADARSAT Constellation','East Field','OASPL',data_path);
     t = data.OASPLData.t;
     OASPL = data.OASPLData.OASPL + 20.*log10(distToRocket(1:length(data.OASPLData.OASPL))./r0);
-    plot(t,OASPL)
+    plot(t,OASPL,'-*','MarkerIndices',1:10:length(OASPL),'MarkerSize',8)
     if tiled == 1
         title('RADARSAT Constellation East Field')
     else
@@ -233,12 +236,12 @@ if RC_MG_Plot == 1
     %% True Distance To Source Calculation
     r = f9IntParams(5,9); % Radius from launch complex to measurement location
     theta = f9IntParams(7,9); % Angle from launch complex to measurement location, relative true North
-    [t,a,distToRocket,~,~] = getRocketTrajectory('RADARSAT Constellation','SoundSpeed',c,'DistFromPad',r,'Angle',theta,'ZeroPad',5);
+    [ta.MG,a,distToRocket,~,arp.MG,~] = getRocketTrajectory('RADARSAT Constellation','SoundSpeed',c,'DistFromPad',r,'Angle',theta,'ZeroPad',5);
     
     data = loadFalcon9Data('RADARSAT Constellation','Miguelito','OASPL',data_path);
     t = data.OASPLData.t;
     OASPL = data.OASPLData.OASPL + 20.*log10(distToRocket(1:length(data.OASPLData.OASPL))./r0);
-    plot(t,OASPL)
+    plot(t,OASPL,'-+','MarkerIndices',1:10:length(OASPL),'MarkerSize',8)
     if tiled == 1
         title('RADARSAT Constellation Miguelito')
     else
@@ -249,9 +252,9 @@ end
 % [t,a,distToRocket,~,~] = getRocketTrajectory('IRIDIUM 7',varargin)
 
 if numPlots > 1 && tiled == 1
-    xlabel(a,'Time (s)','Fontlength',22)
-    ylabel(a,'OASPL (dB re 20\muPa)','Fontlength',22)
-    title({[a,'Running OASPL,'], 'Amplitude Corrected for Spherical Spreading'})
+    xlabel(ax,'Time (s)','Fontlength',22)
+    ylabel(ax,'OASPL (dB re 20\muPa)','Fontlength',22)
+    title({[ax,'Running OASPL,'], 'Amplitude Corrected for Spherical Spreading'})
 else
     xlabel('Time (s)')
     ylabel('OASPL (dB re 20\muPa)')
@@ -261,5 +264,14 @@ else
         legend(labels,'Location','NorthEast')
     end
 end
-
+yyaxis right
+hold on
+plot(ta.NF(1:end-1),arp.NF,'--o','MarkerIndices',1:10:length(arp.NF),'MarkerSize',8,'Color',[0 0.4470 0.7410])
+plot(ta.WF(1:end-1),arp.WF,'--s','MarkerIndices',1:10:length(arp.WF),'MarkerSize',8,'Color',[0.8500 0.3250 0.0980])
+plot(ta.EF(1:end-1),arp.EF,'--*','MarkerIndices',1:10:length(arp.EF),'MarkerSize',8,'Color',[0.9290 0.6940 0.1250])
+plot(ta.MG(1:end-1),arp.MG,'--d','MarkerIndices',1:10:length(arp.MG),'MarkerSize',8,'Color',[0.4940 0.1840 0.5560])
 grid on
+box on
+% hlgd = gridlegend('RowNames',['NF','WF','EF','MG'],'ColumnNames',['Location','OASPL','Angle re Plume'])
+hlgd = gridlegend({"NF","WF","EF","MG"},{"Location","OASPL","Angle re Plume"})
+% legend('NF','WF','EF','MG')

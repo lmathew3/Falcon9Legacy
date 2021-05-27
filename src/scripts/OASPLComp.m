@@ -41,8 +41,7 @@ set(0,'DefaultAxesColorOrder',colvect);
 set(0,'DefaultAxesLineStyleOrder',{'-','--'});  %plots all solid lines, and then dashed
 
  
-cd 'E:\ASA Falcon 9 Analysis\MAT Files'
-addpath('C:\Users\logan\Box\Git Repo Clones\BYU Acoustics\Jet Noise\Rocket Noise Group\Rocket Launches\Falcon 9\vandenberg-afb-falcon-9-launches')
+cd 'E:\Rocket Noise\Falcon 9\MAT Files'
 I7OASPL = open('IRIDIUM 7_North Field CH0 378A07_COUGAR_OASPL_DATA.mat');
 S1AOASPL = open('SAOCOM 1A_North Field CH0 378A07_COUGAR_OASPL_DATA.mat');
 RCOASPL = open('RADARSAT Constellation_North Field CH9 378A07_COUGAR_OASPL_DATA.mat');

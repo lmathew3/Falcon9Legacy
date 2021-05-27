@@ -1,9 +1,10 @@
 plotStyle('FontStyle','classic','FontSize',16,'LineWidth',1,'ColorScheme',1,'AspectRatio','square','PlotSize','small')
 %%
-data_path = 'E:\ASA Falcon 9 Analysis\';
+data_path ='E:\Rocket Noise\Falcon 9\';
+addpath('E:\Rocket Noise\Falcon 9')
 f9IntParams = importdata('f9IntParams.mat');
 f9NameParams = importdata('f9NameParams.mat');
-locations = [1 2 3 4 5 6 7 9];
+locations = [6 7 8 9];
     
 polar = 0;
 smoothing = 0;
