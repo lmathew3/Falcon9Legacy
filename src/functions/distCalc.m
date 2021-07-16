@@ -7,11 +7,14 @@ function [s,c]=distCalc(r,theta,d,a,averagingPeriod,tOffset)
 % theta = angle between rocket travel direction and measurement location to pad radius.
 % d = array of downrange distances of rocket
 % a = array of altitudes of rocket
+% **FIXME what is averagingPeriod?**
 % tOffset = time offset from prebuffer (time before rocket launch)
 % 
 % Outputs:
 % s = array of true distances from rocket to measurement location.
-% 
+% c = array of ground-projected distance from rocket to measurement
+% location
+%
 % Author: Logan Mathews
 % 22 October 2019
 
